@@ -9,10 +9,13 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
+
+let check = 0
 let userData = {}
 let username = ''
 let userinfo = {}
 let userstatus = {}
+let userrating = {}
 
 app.get('/', (req,res) => {
     res.render('index')
@@ -31,12 +34,13 @@ app.post('/search', async(req,res) => {
             return userinfo.data
         }
         catch {
-            console.log('error')
-            res.render('profile_not_found', {userName})
+            console.log('error in info')
+            res.render('profile_not_found', {username})
+            check++
         }
     }
     
-    const fetchStatus = async () => {
+    const fetchStatus = async() => {
         try {
             let link = 'https://codeforces.com/api/user.status?handle='
             link += username 
@@ -44,17 +48,42 @@ app.post('/search', async(req,res) => {
             return userstatus.data
         } 
         catch(error) {
-            console.error(error)
+            console.error('error in status')
         }
-    }   
+    }  
+    const fetchRating = async() => {
+        try {
+            let link = 'https://codeforces.com/api/user.rating?handle='
+            link += username 
+            userrating = await axios.get(link)
+            return userrating.data
+        }
+        catch(error) {
+            console.log('error in rating')
+        }
+    } 
+    const fetchBlogEntries = async() => {
+        try {
+            let link = 'https://codeforces.com/api/user.blogEntries?handle='
+            link += username
+            userblogEntries = await axios.get(link)
+            return userblogEntries.data
+        }
+        catch(error) {
+            console.log('error in blog entries')
+        }
+    }
     userData['userinfo'] = await fetchInfo()
-    userData['userstatus']= await fetchStatus()
-    res.redirect(`/search/user?=${username}`)
+    userData['userstatus'] = await fetchStatus()
+    userData['userrating'] = await fetchRating()
+    userData['userblogEntries'] = await fetchBlogEntries()
+    if (check === 0)
+        res.redirect(`/search?user=${username}`)
     //console.log(userData) 
 })
 
 
-app.get(`/search/user`, (req,res) => {
+app.get('/search', (req,res) => {
     res.render('userProfile', {userData})
 })
 

@@ -4,12 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><%= userData.username %></title>
 	<link rel="stylesheet" href="/css/userProfile.css">
 </head>
 <body>
    <h1><%=userData['username']%>'s profile JSON codes</h1>
    <% for (let key in userData) { %>
+	<% if (key === 'username') { %> 
+		<label for="<%= key %>" class="textarea-label"> <%= key %>: </label>
+		<br>
+		<textarea name="<%= key %>" id="<%= key %>" cols="100" rows="2" class="textarea" disabled >
+			<%= JSON.stringify(userData[key]) %>
+		</textarea>
+		<br> 
+		<br> 
+	<% }else { %>
 		<label for="<%= key %>" class="textarea-label"> <%= key %>: </label>
 		<br>
 		<textarea name="<%= key %>" id="<%= key %>" cols="100" rows="20" class="textarea" disabled >
@@ -17,6 +26,7 @@
 		</textarea>
 		<br> 
 		<br>   
+	<% } %>    
 	<% } %> 
 </body>
 </html>
