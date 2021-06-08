@@ -7,18 +7,19 @@
     <title><%= methodName %> </title>
 </head>
 <body>
+    <h1>JSON for <%= methods %>  in contest with id: <%= id %> </h1>
     <section class="buttons">
-        <button onclick="dropDownHacks()">contest.hacks &#8628;</button>
+        <button onclick="dropDownHacks()">contest.<%= methods %> &#8628;</button>
         <br>
-        <section id="hidden-data-hacks" style="display: none;">
+        <section id="hidden-data-<%= methods %>" style="display: none;">
             <textarea name="" id="" cols="150" rows="30">
-                <%= JSON.stringify(linkhacks.data) %> 
+                <%= JSON.stringify(link.data) %> 
             </textarea>
         </section>
     </section>
     <script>
         function dropDownHacks() {
-            let data = document.getElementById('hidden-data-hacks');
+            let data = document.getElementById('hidden-data-<%= methods %>');
             if (data.style.display == 'none') {
                 data.style.display = 'block';
             } else {

@@ -84,6 +84,7 @@ app.get('/', (req,res) => {
 
 let linklist_gymfalse
 let linklist_gymtrue
+let methods
 async function contestData() {
     linklist_gymtrue = await axios.get(`https://codeforces.com/api/contest.list?gym=true`)
     linklist_gymfalse = await axios.get(`https://codeforces.com/api/contest.list?gym=false`)
@@ -111,7 +112,8 @@ app.get('/methods/:methodName', async(req,res) => {
 
 app.get('/methods/:methodName/tab/:methods', (req,res) => {
     const methodName = req.params.methodName
-    res.render(`methods/${req.params.methodName}/${req.params.methods}`, {methodName})
+    methods = req.params.methods
+    res.render(`methods/${req.params.methodName}/${req.params.methods}`, {methodName,methods})
 })
 
 
@@ -134,8 +136,8 @@ app.post('/methods/:methodName', (req,res) => {
         else if (methodName === 'contest') {
             try {
                 id = Number(id)
-                const linkhacks = await axios.get(`https://codeforces.com/api/contest.hacks?contestId=${id}`)
-                res.render(`methods/${methodName}/${methodName}Success`,{id, linkhacks, methodName})
+                const link = await axios.get(`https://codeforces.com/api/contest.${methods}?contestId=${id}`)
+                res.render(`methods/${methodName}/${methodName}Success`,{id, link, methodName,methods})
             }
             catch {
                 res.render(`methods/${methodName}/${methodName}Failure`, {id})
