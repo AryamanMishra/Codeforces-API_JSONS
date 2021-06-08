@@ -82,33 +82,70 @@ app.get('/', (req,res) => {
 //     //console.log(userData) 
 // })
 
+let linklist_gymfalse
+let linklist_gymtrue
+async function contestData() {
+    linklist_gymtrue = await axios.get(`https://codeforces.com/api/contest.list?gym=true`)
+    linklist_gymfalse = await axios.get(`https://codeforces.com/api/contest.list?gym=false`)
+}
+
+
+
 
 app.get('/methods', (req,res) => {
     res.render('methods_home_page')
 })
 
 
-app.get('/methods/:methodName', (req,res) => {
+app.get('/methods/:methodName', async(req,res) => {
     const methodName = req.params.methodName
-    res.render (`methods/${methodName}/${methodName}Home`, {methodName})
+    if (methodName === 'contest') {
+        contestData()
+        res.render(`methods/${methodName}/${methodName}Home`,{methodName,linklist_gymtrue,linklist_gymfalse})
+    }
+    else {
+        res.render(`methods/${methodName}/${methodName}Home`, {methodName})
+    }
 })
+
+
+app.get('/methods/:methodName/tab/:methods', (req,res) => {
+    const methodName = req.params.methodName
+    res.render(`methods/${req.params.methodName}/${req.params.methods}`, {methodName})
+})
+
 
 app.post('/methods/:methodName', (req,res) => {
     let id = req.body.id
     const methodName = req.body.methodName
     res.redirect(`/methods/${methodName}/id=${id}`)
     app.get(`/methods/${methodName}/id=${id}`, async(req,res) => {
-        try {
-            id = Number(id)
-            const linkView = await axios.get(`https://codeforces.com/api/blogEntry.view?blogEntryId=${id}`)
-            const linkComments = await axios.get(`https://codeforces.com/api/blogEntry.comments?blogEntryId=${id}`)
-            res.render(`methods/${methodName}/${methodName}Success`,{id, linkView, linkComments})
+        if (methodName === 'blogEntry') {
+            try {
+                id = Number(id)
+                const linkView = await axios.get(`https://codeforces.com/api/blogEntry.view?blogEntryId=${id}`)
+                const linkComments = await axios.get(`https://codeforces.com/api/blogEntry.comments?blogEntryId=${id}`)
+                res.render(`methods/${methodName}/${methodName}Success`,{id, linkView, linkComments})
+            }
+            catch {
+                res.render(`methods/${methodName}/${methodName}Failure`, {id})
+            }
         }
-        catch {
-            res.render(`methods/${methodName}/${methodName}Failure`, {id})
+        else if (methodName === 'contest') {
+            try {
+                id = Number(id)
+                const linkhacks = await axios.get(`https://codeforces.com/api/contest.hacks?contestId=${id}`)
+                res.render(`methods/${methodName}/${methodName}Success`,{id, linkhacks, methodName})
+            }
+            catch {
+                res.render(`methods/${methodName}/${methodName}Failure`, {id})
+            }
         }
     })
 })
+
+
+
 
 app.listen(8080, () => {
     console.log('LISTENING ON PORT 8080')

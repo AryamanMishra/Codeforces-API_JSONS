@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/methods/<%= methodName %>" method="POST">
+        <label for="id"> Please enter Contest Id for this contest method: </label>
+        <br>
+        <input type="text" name="id" id="id">
+        <br>
+        <br>
+        <input type="hidden" name="methodName" id="methodName" value="<%= methodName %>">
+        <button>Submit</button>
+    </form>
+</body>
+</html>
