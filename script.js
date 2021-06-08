@@ -10,76 +10,57 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 
+
+let linkComments = {}
+let linkView = {}
+
 app.get('/', (req,res) => {
     res.render('index')
 })
 
 
-let linklist_gymfalse = null
-let linklist_gymtrue = null
-let methods = null
-async function contestData() {
-    linklist_gymtrue = await axios.get(`https://codeforces.com/api/contest.list?gym=true`)
-    linklist_gymfalse = await axios.get(`https://codeforces.com/api/contest.list?gym=false`)
-}
-
-
-
-
 app.get('/methods', (req,res) => {
-    res.render('methods_home_page')
+    res.render('methods/home')
 })
 
 
-app.get('/methods/:methodName', async(req,res) => {
+app.get('/methods/:methodName', (req,res) => {
     const methodName = req.params.methodName
-    if (methodName === 'contest') {
-        contestData()
-        res.render(`methods/${methodName}/${methodName}Home`,{methodName,linklist_gymtrue,linklist_gymfalse})
+    let x = -1
+    let name = null
+    for (let i=0;i<methodName.length;i++) {
+        if (methodName[i] === methodName[i].toUpperCase()) {
+            x = i
+            break;
+        }
     }
+    if (x === -1) {
+        name = methodName
+    } 
     else {
-        res.render(`methods/${methodName}/${methodName}Home`, {methodName})
+        name = methodName.substring(0,x)
+    }
+    res.render(`methods/method_form`, {methodName,name})
+})
+
+
+app.get('/methods/:methodName/:id', async(req,res) => {
+    let id = req.params.id.substring(3)
+    id = Number(id)
+    const methodName = req.params.methodName
+    if (methodName == 'blogEntry') {
+        linkComments = await axios.get(`https://codeforces.com/api/blogEntry.comments?blogEntryId=${id}`)
+        linkView = await axios.get(`https://codeforces.com/api/blogEntry.view?blogEntryId=${id}`)
+        console.log(linkView.data)
+        res.render('methods/method_home', {linkComments,linkView,methodName,id})
     }
 })
 
-
-app.get('/methods/:methodName/tab/:methods', (req,res) => {
-    const methodName = req.params.methodName
-    methods = req.params.methods
-    res.render(`methods/contest/idfiller`, {methodName,methods})
-})
-
-
-app.post('/methods/:methodName', (req,res) => {
+app.post('/methods/:methodName',  (req,res) => {
     let id = req.body.id
-    const methodName = req.body.methodName
-    res.redirect(`/methods/${methodName}/id=${id}`)
-    app.get(`/methods/${methodName}/id=${id}`, async(req,res) => {
-        if (methodName === 'blogEntry') {
-            try {
-                id = Number(id)
-                const linkView = await axios.get(`https://codeforces.com/api/blogEntry.view?blogEntryId=${id}`)
-                const linkComments = await axios.get(`https://codeforces.com/api/blogEntry.comments?blogEntryId=${id}`)
-                res.render(`methods/${methodName}/${methodName}Success`,{id, linkView, linkComments})
-            }
-            catch {
-                res.render(`methods/${methodName}/${methodName}Failure`, {id})
-            }
-        }
-        else if (methodName === 'contest') {
-            try {
-                id = Number(id)
-                const link = await axios.get(`https://codeforces.com/api/contest.${methods}?contestId=${id}`)
-                console.log(`https://codeforces.com/api/contest.${methods}?contestId=${id}`)
-                res.render(`methods/${methodName}/${methodName}Success`,{id, link, methodName,methods})
-            }
-            catch {
-                res.render(`methods/${methodName}/${methodName}Failure`, {id})
-            }
-        }
-    })
+    id = Number(id)
+    res.redirect(`/methods/${req.params.methodName}/id=${id}`)
 })
-
 
 
 
