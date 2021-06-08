@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>blogEntry Page</title>
+</head>
+<body>
+    <h1>Methods for blog id <%= id %>: </h1>
+    
+    <section class="buttons">
+        <button onclick="dropDownComments()">blogEntry.comments &#8628;</button>
+        <br>
+        <section id="hidden-data-comments" style="display: none;">
+            <textarea name="" id="" cols="150" rows="30">
+                <%= JSON.stringify(linkComments.data) %> 
+            </textarea>
+        </section>
+        <br>
+        <br>
+        <button onclick="dropDownView()">blogEntry.view &#8628;</button>
+        <br>
+        <section id="hidden-data-view" style="display: none;">
+            <textarea name="" id="" cols="50" rows="15">
+                <%= JSON.stringify(linkView.data) %> 
+            </textarea>
+        </section>
+    </section>
+    <script>
+        function dropDownComments() {
+            let data = document.getElementById('hidden-data-comments');
+            if (data.style.display == 'none') {
+                data.style.display = 'block';
+            } else {
+                data.style.display = 'none';
+            }
+        }
+        function dropDownView() {
+            let data = document.getElementById('hidden-data-view');
+            if (data.style.display == 'none') {
+                data.style.display = 'block';
+            } else {
+                data.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

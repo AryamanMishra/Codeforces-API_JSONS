@@ -1,0 +1,26 @@
+body {
+    background-color: black;
+}
+h1 {
+    color:white;
+    text-align: center;
+}
+.buttons button  {
+    background-color:blueviolet;
+    font-size: 2em;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 5em;
+    height: 2.5em;
+}
+.buttons button a {
+    color: white;
+    text-decoration: none;
+}
+.buttons :hover {
+    transition: all 1s ease-in;
+    cursor: pointer;
+    background-color: black;
+}
