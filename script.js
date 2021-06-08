@@ -41,16 +41,13 @@ app.get('/methods/:methodName', async(req,res) => {
     if (methodName === 'blogEntry')
         res.render(`methods/method_form`, {methodName,name})
     else {
-        let [linkcontest_listT,linkcontest_listF] = ([axios.get('https://codeforces.com/api/contest.list?gym=true'),axios.get('https://codeforces.com/api/contest.list?gym=false')])
-        .then(() => {
-            linkData.linkcontest_listT = linkcontest_listT
-            linkData.linkcontest_listF = linkcontest_listF
-            res.render('methods/method_home', {linkData,methodName})
-        })
-        
+        let [linkcontest_listT,linkcontest_listF] = await Promise.all([axios.get(`https://codeforces.com/api/blogEntry.comments?blogEntryId=79`),axios.get(`https://codeforces.com/api/blogEntry.view?blogEntryId=79`)])
+        linkData.linkcontest_listT = linkcontest_listT
+        linkData.linkcontest_listF = linkcontest_listF
+        //console.log(linkData.linkcontest_listF.status)
+        res.render('methods/method_home', {linkData,methodName})
     }
 })
-
 
 app.get('/methods/:methodName/:id', async(req,res) => {
     let id = req.params.id.substring(3)
