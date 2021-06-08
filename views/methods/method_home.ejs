@@ -13,7 +13,7 @@
         <br>
         <section id="hidden-data-comments" style="display: none;">
             <textarea name="" id="" cols="150" rows="30">
-                <%= JSON.stringify(linkComments.data) %> 
+                <%= JSON.stringify(linkData.linkblogEntry_comments.data) %> 
             </textarea>
         </section>
         <button onclick="dropDownView()">blogEntry.view &#8628;</button>
@@ -21,9 +21,28 @@
         <br>
         <section id="hidden-data-view" style="display: none;">
             <textarea name="" id="" cols="50" rows="20">
-                <%= JSON.stringify(linkView.data) %> 
+                <%= JSON.stringify(linkData.linkblogEntry_view.data) %> 
             </textarea>
         </section>
+    <% } else  if (methodName === 'contest'){ %>
+        <button><a href="/methods/contest/forms/hacks"><%= methodName %>.hacks</a></button>
+        <br>
+        <br>
+        <button onclick="dropDownList()">contest.list(gym=true) &#8628;</button>
+        <br>
+        <br>
+        <section id="hidden-data-listT" style="display: none;">
+            <textarea name="" id="" cols="150" rows="30">
+                <%= JSON.stringify(linkData.likcontentlistT) %> 
+            </textarea>
+        </section>
+        <button onclick="dropDownView()">contest.list(gym=false) &#8628;</button>
+        <br>
+        <br>
+        <section id="hidden-data-listF" style="display: none;">
+            <textarea name="" id="" cols="50" rows="20">
+                <%= JSON.stringify(linkData.likcontentlistF) %> 
+            </textarea>
     <% } %> 
     <script>
         function dropDownCom() {

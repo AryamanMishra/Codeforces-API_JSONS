@@ -10,9 +10,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 
-
-let linkComments = {}
-let linkView = {}
+let linkData = {}
 
 app.get('/', (req,res) => {
     res.render('index')
@@ -24,7 +22,7 @@ app.get('/methods', (req,res) => {
 })
 
 
-app.get('/methods/:methodName', (req,res) => {
+app.get('/methods/:methodName', async(req,res) => {
     const methodName = req.params.methodName
     let x = -1
     let name = null
@@ -40,7 +38,17 @@ app.get('/methods/:methodName', (req,res) => {
     else {
         name = methodName.substring(0,x)
     }
-    res.render(`methods/method_form`, {methodName,name})
+    if (methodName === 'blogEntry')
+        res.render(`methods/method_form`, {methodName,name})
+    else {
+        let [linkcontest_listT,linkcontest_listF] = ([axios.get('https://codeforces.com/api/contest.list?gym=true'),axios.get('https://codeforces.com/api/contest.list?gym=false')])
+        .then(() => {
+            linkData.linkcontest_listT = linkcontest_listT
+            linkData.linkcontest_listF = linkcontest_listF
+            res.render('methods/method_home', {linkData,methodName})
+        })
+        
+    }
 })
 
 
@@ -48,12 +56,16 @@ app.get('/methods/:methodName/:id', async(req,res) => {
     let id = req.params.id.substring(3)
     id = Number(id)
     const methodName = req.params.methodName
-    if (methodName == 'blogEntry') {
-        linkComments = await axios.get(`https://codeforces.com/api/blogEntry.comments?blogEntryId=${id}`)
-        linkView = await axios.get(`https://codeforces.com/api/blogEntry.view?blogEntryId=${id}`)
-        console.log(linkView.data)
-        res.render('methods/method_home', {linkComments,linkView,methodName,id})
+    if (methodName === 'blogEntry') {
+        let [linkblogEntry_comments,linkblogEntry_view] = await Promise.all([axios.get(`https://codeforces.com/api/blogEntry.comments?blogEntryId=${id}`),axios.get(`https://codeforces.com/api/blogEntry.view?blogEntryId=${id}`)])
+        linkData.linkblogEntry_comments = linkblogEntry_comments
+        linkData.linkblogEntry_view = linkblogEntry_view
+        res.render('methods/method_home', {linkData,id,methodName})
     }
+    else if (methodName === 'contest') {
+        
+    }
+  
 })
 
 app.post('/methods/:methodName',  (req,res) => {
