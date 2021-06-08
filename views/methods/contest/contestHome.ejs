@@ -12,9 +12,6 @@
         <button><a href="/methods/contest/tab/hacks" target="_blank">contest.hacks</a></button>
         <br>
         <br>
-        <button><a href="/methods/contest/tab/ratingChanges" target="_blank">contest.ratingChanges</a></button>
-        <br>
-        <br>
         <button onclick="dropDownlistgt()">contest.list(gym=true) &#8628;</button>
         <br>
         <section id="hidden-data-listgt" style="display: none;">
@@ -29,7 +26,15 @@
             <textarea name="" id="" cols="150" rows="30">
                 <%= JSON.stringify(linklist_gymfalse.data) %> 
             </textarea>
-    </section>
+        </section>
+        <br>
+        <button><a href="/methods/contest/tab/ratingChanges" target="_blank">contest.ratingChanges</a></button>
+        <br>
+        <br>
+        <button><a href="/methods/contest/tab/standings" target="_blank">contest.standings(Official)</a></button>
+        <br>
+        <br>
+        <button><a href="/methods/contest/tab/status" target="_blank">contest.status</a></button>
     <script>
         function dropDownlistgt() {
             let data = document.getElementById('hidden-data-listgt');
