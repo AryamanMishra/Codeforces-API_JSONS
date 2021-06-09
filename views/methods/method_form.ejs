@@ -7,13 +7,24 @@
     <title>Id needed</title>
 </head>
 <body>
-    <h1>Please enter <%= name %> id: </h1>
-    <form action="/methods/<%= methodName %>" method="post">
-        <label for="id"></label>
-        <input type="number" id="id" name="id">
-        <br>
-        <br>
-        <button>Submit</button>
-    </form>
+    <% if (methodName === 'blogEntry') { %> 
+        <h1>Please enter blog id: </h1>
+        <form action="/methods/<%= methodName %>" method="post">
+            <label for="id"></label>
+            <input type="number" id="id" name="id">
+            <br>
+            <br>
+            <button>Submit</button>
+        </form>
+    <% } else if (methodName === 'contest') { %> 
+        <h1>Please enter contest id: </h1>
+        <form action="/methods/<%= methodName %>" method="post">
+            <label for="id"></label>
+            <input type="number" id="id" name="id">
+            <br>
+            <br>
+            <button>Submit</button>
+        </form>
+    <% } %> 
 </body>
 </html>

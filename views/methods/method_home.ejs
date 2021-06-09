@@ -7,6 +7,12 @@
     <title><%= methodName %> </title>
 </head>
 <body>
+    <p>
+        Note: For methods depending on contest id, fill the id for either one of them and data for that id will be loaded for others too.
+        For example, contest.hacks depends on contest id so by clicking on it you will be asked to give a contest id. By entering a valid contest id, data for other id dependent methods
+        like, contest.rating changes, contest.status,contest.standings will also be loaded for the id given by you.
+    </p>
+    <br>
     <% if (methodName === 'blogEntry') { %>
         <button onclick="dropDownCom()">blogEntry.comments &#8628;</button>
         <br>
@@ -25,9 +31,21 @@
             </textarea>
         </section>
     <% } else  if (methodName === 'contest'){ %>
-        <button><a href="/methods/contest/forms/hacks"><%= methodName %>.hacks</a></button>
-        <br>
-        <br>
+        <% if (check === 0) { %> 
+            <button><a href="/methods/contest/forms/idFiller"><%= methodName %>.hacks</a></button>
+            <br>
+            <br>
+        <% } else { %> 
+            <h2>Entered id: <%= id %> </h2>
+            <button onclick="dropDownhacks()"><%= methodName %>.hacks &#8628;</button>
+            <br>
+            <br>
+            <section id="hidden-data-hacks" style="display: none;">
+                    <textarea name="" id="" cols="150" rows="30">
+                        <%= JSON.stringify(linkData.linkcontest_ratingChanges.data) %> 
+                    </textarea>
+            </section>
+        <% } %> 
         <button onclick="dropDownListT()">contest.list(gym=true) &#8628;</button>
         <br>
         <br>
@@ -40,10 +58,53 @@
         <br>
         <br>
         <section id="hidden-data-listF" style="display: none;">
-            <textarea name="" id="" cols="50" rows="20">
+            <textarea name="" id="" cols="150" rows="30">
                 <%= JSON.stringify(linkData.linkcontest_listF.data) %> 
             </textarea>
         </section>
+        <% if (check === 0) { %> 
+            <button><a href="/methods/contest/forms/idFiller">contest.ratingChanges</a></button>
+            <br>
+            <br>
+        <% }else { %> 
+            <button onclick="dropDownrC()">contest.ratingChanges &#8628;</button>
+            <br>
+            <br>
+            <section id="hidden-data-rC" style="display: none;">
+                    <textarea name="" id="" cols="150" rows="30">
+                        <%= JSON.stringify(linkData.linkcontest_ratingChanges.data) %> 
+                    </textarea>
+            </section>
+        <% } %> 
+        <% if (check === 0) { %> 
+            <button><a href="/methods/contest/forms/idFiller">contest.standings(Unofficial)</a></button>
+            <br>
+            <br>
+        <% }else {%> 
+            <button onclick="dropDownstan()">contest.standings(Unofficial) &#8628;</button>
+            <br>
+            <br>
+            <section id="hidden-data-stan" style="display: none;">
+                    <textarea name="" id="" cols="150" rows="30">
+                        <%= JSON.stringify(linkData.linkcontest_standings.data) %> 
+                    </textarea> 
+            </section>
+        <% } %>
+        <% if (check === 0) { %> 
+            <button><a href="/methods/contest/forms/idFiller">contest.status</a></button>
+            <br>
+            <br>
+        <% } else { %> 
+            <button onclick="dropDownstatus()">contest.status &#8628;</button>
+            <section id="hidden-data-status" style="display: none;">
+                    <textarea name="" id="" cols="150" rows="30">
+                        <%= JSON.stringify(linkData.linkcontest_status.data) %> 
+                    </textarea>
+            </section>
+        <% } %> 
+    <% } else if (methodName === 'problemset') {%>
+        <button><a href="/methods/contest/forms/idFiller"><%= methodName %>.problems</a></button>
+        <button><a href="/methods/contest/forms/idFiller"><%= methodName %>.recentStatus</a></button>  
     <% } %> 
     <script>
         function dropDownCom() {
@@ -62,6 +123,14 @@
                 data.style.display = 'none';
             }
         }
+        function dropDownhacks() {
+            let data = document.getElementById('hidden-data-hacks');
+            if (data.style.display == 'none') {
+                data.style.display = 'block';
+            } else {
+                data.style.display = 'none';
+            }
+        }
         function dropDownListT() {
             let data = document.getElementById('hidden-data-listT');
             if (data.style.display == 'none') {
@@ -72,6 +141,30 @@
         }
         function dropDownListF() {
             let data = document.getElementById('hidden-data-listF');
+            if (data.style.display == 'none') {
+                data.style.display = 'block';
+            } else {
+                data.style.display = 'none';
+            }
+        }
+        function dropDownrC() {
+            let data = document.getElementById('hidden-data-rC');
+            if (data.style.display == 'none') {
+                data.style.display = 'block';
+            } else {
+                data.style.display = 'none';
+            }
+        }
+        function dropDownstan() {
+            let data = document.getElementById('hidden-data-stan');
+            if (data.style.display == 'none') {
+                data.style.display = 'block';
+            } else {
+                data.style.display = 'none';
+            }
+        }
+        function dropDownstatus() {
+            let data = document.getElementById('hidden-data-status');
             if (data.style.display == 'none') {
                 data.style.display = 'block';
             } else {
