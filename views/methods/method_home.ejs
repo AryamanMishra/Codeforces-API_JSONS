@@ -7,14 +7,9 @@
     <title><%= methodName %> </title>
 </head>
 <body>
-    <p>
-        Note: For methods depending on contest id, fill the id for either one of them and data for that id will be loaded for others too.
-        For example, contest.hacks depends on contest id so by clicking on it you will be asked to give a contest id. By entering a valid contest id, data for other id dependent methods
-        like, contest.rating changes, contest.status,contest.standings will also be loaded for the id given by you.
-    </p>
-    <br>
     <% if (methodName === 'blogEntry') { %>
-        <button onclick="dropDownCom()">blogEntry.comments &#8628;</button>
+        <h1>Entered blog id: <%= id %> </h1>
+        <button onclick="dropDown(`hidden-data-comments`)">blogEntry.comments &#8628;</button>
         <br>
         <br>
         <section id="hidden-data-comments" style="display: none;">
@@ -22,7 +17,7 @@
                 <%= JSON.stringify(linkData.linkblogEntry_comments.data) %> 
             </textarea>
         </section>
-        <button onclick="dropDownView()">blogEntry.view &#8628;</button>
+        <button onclick="dropDown('hidden-data-view')">blogEntry.view &#8628;</button>
         <br>
         <br>
         <section id="hidden-data-view" style="display: none;">
@@ -31,13 +26,19 @@
             </textarea>
         </section>
     <% } else  if (methodName === 'contest'){ %>
+        <p>
+            Note: For methods depending on contest id, fill the id for either one of them and data for that id will be loaded for others too.
+            For example, contest.hacks depends on contest id so by clicking on it you will be asked to give a contest id. By entering a valid contest id, data for other id dependent methods
+            like, contest.rating changes, contest.status,contest.standings will also be loaded for the id given by you.
+        </p>
+        <br>
         <% if (check === 0) { %> 
             <button><a href="/methods/contest/forms/idFiller"><%= methodName %>.hacks</a></button>
             <br>
             <br>
         <% } else { %> 
             <h2>Entered id: <%= id %> </h2>
-            <button onclick="dropDownhacks()"><%= methodName %>.hacks &#8628;</button>
+            <button onclick="dropDown('hidden-data-hacks')"><%= methodName %>.hacks &#8628;</button>
             <br>
             <br>
             <section id="hidden-data-hacks" style="display: none;">
@@ -46,7 +47,7 @@
                     </textarea>
             </section>
         <% } %> 
-        <button onclick="dropDownListT()">contest.list(gym=true) &#8628;</button>
+        <button onclick="dropDown('hidden-data-listT')">contest.list(gym=true) &#8628;</button>
         <br>
         <br>
         <section id="hidden-data-listT" style="display: none;">
@@ -54,7 +55,7 @@
                 <%= JSON.stringify(linkData.linkcontest_listT.data) %> 
             </textarea>
         </section>
-        <button onclick="dropDownListF()">contest.list(gym=false) &#8628;</button>
+        <button onclick="dropDown('hidden-data-listF')">contest.list(gym=false) &#8628;</button>
         <br>
         <br>
         <section id="hidden-data-listF" style="display: none;">
@@ -67,7 +68,7 @@
             <br>
             <br>
         <% }else { %> 
-            <button onclick="dropDownrC()">contest.ratingChanges &#8628;</button>
+            <button onclick="dropDown('hidden-data-rC')">contest.ratingChanges &#8628;</button>
             <br>
             <br>
             <section id="hidden-data-rC" style="display: none;">
@@ -81,7 +82,7 @@
             <br>
             <br>
         <% }else {%> 
-            <button onclick="dropDownstan()">contest.standings(Unofficial) &#8628;</button>
+            <button onclick="dropDown('hidden-data-stan')">contest.standings(Unofficial) &#8628;</button>
             <br>
             <br>
             <section id="hidden-data-stan" style="display: none;">
@@ -95,7 +96,7 @@
             <br>
             <br>
         <% } else { %> 
-            <button onclick="dropDownstatus()">contest.status &#8628;</button>
+            <button onclick="dropDown('hidden-data-status')">contest.status(This button takes time to load and show data due to the slow response from CF API) &#8628;</button>
             <section id="hidden-data-status" style="display: none;">
                     <textarea name="" id="" cols="150" rows="30">
                         <%= JSON.stringify(linkData.linkcontest_status.data) %> 
@@ -103,68 +104,46 @@
             </section>
         <% } %> 
     <% } else if (methodName === 'problemset') {%>
-        <button><a href="/methods/contest/forms/idFiller"><%= methodName %>.problems</a></button>
-        <button><a href="/methods/contest/forms/idFiller"><%= methodName %>.recentStatus</a></button>  
+        <% if (check === 0) { %> 
+            <button><a href="/methods/problemset/forms/tagFiller"><%= methodName %>.problems</a></button>
+            <br>
+            <br>    
+        <% } else if (countFillercheck === true) { %>
+            <button><a href="/methods/problemset/forms/tagFiller"><%= methodName %>.problems</a></button>
+            <br>
+            <br>
+        <% } else { %>
+            <button onclick="dropDown('hidden-data-problems')"><%= methodName %>.problems &#8628;</button>
+            <br>
+            <br>
+            <section id="hidden-data-problems" style="display: none;">
+                <textarea name="" id="" cols="150" rows="30">
+                    <%= JSON.stringify(linkData.linkproblemset_problems.data) %> 
+                </textarea>
+            </section>
+        <% } %>  
+        <% if (check === 0) { %> 
+            <button><a href="/methods/problemset/forms/countFiller" target="_blank"><%= methodName %>.recentStatus</a></button>
+            <br>
+            <br>
+        <% } else if (countFillercheck === true) { %>
+            <button onclick="dropDown('hidden-data-rS')"><%= methodName %>.recentStatus &#8628;</button>
+            <br>
+            <br>
+            <section id="hidden-data-rS" style="display: none;">
+                <textarea name="" id="" cols="150" rows="30">
+                    <%= JSON.stringify(linkData.linkproblemset_recentStatus.data) %> 
+                </textarea>
+            </section> 
+        <% } else { %>
+            <button><a href="/methods/problemset/forms/countFiller" target="_blank"><%= methodName %>.recentStatus</a></button>
+            <br>
+            <br>
+        <% } %> 
     <% } %> 
     <script>
-        function dropDownCom() {
-            let data = document.getElementById('hidden-data-comments');
-            if (data.style.display == 'none') {
-                data.style.display = 'block';
-            } else {
-                data.style.display = 'none';
-            }
-        }
-        function dropDownView() {
-            let data = document.getElementById('hidden-data-view');
-            if (data.style.display == 'none') {
-                data.style.display = 'block';
-            } else {
-                data.style.display = 'none';
-            }
-        }
-        function dropDownhacks() {
-            let data = document.getElementById('hidden-data-hacks');
-            if (data.style.display == 'none') {
-                data.style.display = 'block';
-            } else {
-                data.style.display = 'none';
-            }
-        }
-        function dropDownListT() {
-            let data = document.getElementById('hidden-data-listT');
-            if (data.style.display == 'none') {
-                data.style.display = 'block';
-            } else {
-                data.style.display = 'none';
-            }
-        }
-        function dropDownListF() {
-            let data = document.getElementById('hidden-data-listF');
-            if (data.style.display == 'none') {
-                data.style.display = 'block';
-            } else {
-                data.style.display = 'none';
-            }
-        }
-        function dropDownrC() {
-            let data = document.getElementById('hidden-data-rC');
-            if (data.style.display == 'none') {
-                data.style.display = 'block';
-            } else {
-                data.style.display = 'none';
-            }
-        }
-        function dropDownstan() {
-            let data = document.getElementById('hidden-data-stan');
-            if (data.style.display == 'none') {
-                data.style.display = 'block';
-            } else {
-                data.style.display = 'none';
-            }
-        }
-        function dropDownstatus() {
-            let data = document.getElementById('hidden-data-status');
+        function dropDown(id) {
+            let data = document.getElementById(id);
             if (data.style.display == 'none') {
                 data.style.display = 'block';
             } else {
