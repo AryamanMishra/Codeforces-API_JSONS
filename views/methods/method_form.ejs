@@ -34,6 +34,15 @@
             <br>
             <button>Submit</button>
         </form> 
-    <% } %> 
+    <% } else if (methodName === 'recentActions') { %>
+        <h1>Please enter maxCount value</h1>
+        <form action="/methods/<%= methodName %>" method="post">
+            <label for="id"></label>
+            <input type="number" id="id" name="id" max="100" min="0">
+            <br>
+            <br>
+            <button>Submit</button>
+        </form> 
+    <% } %>   
 </body>
 </html>

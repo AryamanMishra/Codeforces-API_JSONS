@@ -14,7 +14,7 @@
         <br>
         <section id="hidden-data-comments" style="display: none;">
             <textarea name="" id="" cols="150" rows="30">
-                <%= JSON.stringify(linkData.linkblogEntry_comments.data) %> 
+                <%= linkData.linkblogEntry_comments %> 
             </textarea>
         </section>
         <button onclick="dropDown('hidden-data-view')">blogEntry.view &#8628;</button>
@@ -22,7 +22,7 @@
         <br>
         <section id="hidden-data-view" style="display: none;">
             <textarea name="" id="" cols="50" rows="20">
-                <%= JSON.stringify(linkData.linkblogEntry_view.data) %> 
+                <%= linkData.linkblogEntry_view %> 
             </textarea>
         </section>
     <% } else  if (methodName === 'contest'){ %>
@@ -43,7 +43,7 @@
             <br>
             <section id="hidden-data-hacks" style="display: none;">
                     <textarea name="" id="" cols="150" rows="30">
-                        <%= JSON.stringify(linkData.linkcontest_ratingChanges.data) %> 
+                        <%= linkData.linkcontest_ratingChanges %> 
                     </textarea>
             </section>
         <% } %> 
@@ -52,7 +52,7 @@
         <br>
         <section id="hidden-data-listT" style="display: none;">
             <textarea name="" id="" cols="150" rows="30">
-                <%= JSON.stringify(linkData.linkcontest_listT.data) %> 
+                <%= linkData.linkcontest_listT %> 
             </textarea>
         </section>
         <button onclick="dropDown('hidden-data-listF')">contest.list(gym=false) &#8628;</button>
@@ -60,7 +60,7 @@
         <br>
         <section id="hidden-data-listF" style="display: none;">
             <textarea name="" id="" cols="150" rows="30">
-                <%= JSON.stringify(linkData.linkcontest_listF.data) %> 
+                <%= JSON.stringify(linkData.linkcontest_listF) %> 
             </textarea>
         </section>
         <% if (check === 0) { %> 
@@ -73,7 +73,7 @@
             <br>
             <section id="hidden-data-rC" style="display: none;">
                     <textarea name="" id="" cols="150" rows="30">
-                        <%= JSON.stringify(linkData.linkcontest_ratingChanges.data) %> 
+                        <%= linkData.linkcontest_ratingChanges %> 
                     </textarea>
             </section>
         <% } %> 
@@ -87,7 +87,7 @@
             <br>
             <section id="hidden-data-stan" style="display: none;">
                     <textarea name="" id="" cols="150" rows="30">
-                        <%= JSON.stringify(linkData.linkcontest_standings.data) %> 
+                        <%= linkData.linkcontest_standings %> 
                     </textarea> 
             </section>
         <% } %>
@@ -99,47 +99,59 @@
             <button onclick="dropDown('hidden-data-status')">contest.status(This button takes time to load and show data due to the slow response from CF API) &#8628;</button>
             <section id="hidden-data-status" style="display: none;">
                     <textarea name="" id="" cols="150" rows="30">
-                        <%= JSON.stringify(linkData.linkcontest_status.data) %> 
+                        <%= linkData.linkcontest_status %> 
                     </textarea>
             </section>
         <% } %> 
     <% } else if (methodName === 'problemset') {%>
         <% if (check === 0) { %> 
-            <button><a href="/methods/problemset/forms/tagFiller"><%= methodName %>.problems</a></button>
+            <button><a href="/methods/problemset/forms/tagFiller"><%= methodName %>.problems</a></button> (Requires problem tag)
             <br>
             <br>    
         <% } else if (countFillercheck === true) { %>
-            <button><a href="/methods/problemset/forms/tagFiller"><%= methodName %>.problems</a></button>
+            <button><a href="/methods/problemset/forms/tagFiller"><%= methodName %>.problems</a></button>  (Requires problem tag)
             <br>
             <br>
         <% } else { %>
+            <h2>Tag: <%= id %> </h2>
             <button onclick="dropDown('hidden-data-problems')"><%= methodName %>.problems &#8628;</button>
             <br>
             <br>
             <section id="hidden-data-problems" style="display: none;">
                 <textarea name="" id="" cols="150" rows="30">
-                    <%= JSON.stringify(linkData.linkproblemset_problems.data) %> 
+                    <%= linkData.linkproblemset_problems %> 
                 </textarea>
             </section>
         <% } %>  
         <% if (check === 0) { %> 
-            <button><a href="/methods/problemset/forms/countFiller" target="_blank"><%= methodName %>.recentStatus</a></button>
+            <button><a href="/methods/problemset/forms/countFiller" target="_blank"><%= methodName %>.recentStatus</a></button> (Requires count of number of submissions)
             <br>
             <br>
         <% } else if (countFillercheck === true) { %>
+            <h2>Count value: <%= id %> </h2>
             <button onclick="dropDown('hidden-data-rS')"><%= methodName %>.recentStatus &#8628;</button>
             <br>
             <br>
             <section id="hidden-data-rS" style="display: none;">
                 <textarea name="" id="" cols="150" rows="30">
-                    <%= JSON.stringify(linkData.linkproblemset_recentStatus.data) %> 
+                    <%= linkData.linkproblemset_recentStatus %> 
                 </textarea>
             </section> 
         <% } else { %>
-            <button><a href="/methods/problemset/forms/countFiller" target="_blank"><%= methodName %>.recentStatus</a></button>
+            <button><a href="/methods/problemset/forms/countFiller" target="_blank"><%= methodName %>.recentStatus</a></button>(Requires count of number of submissions)
             <br>
             <br>
         <% } %> 
+    <% } else if (methodName === 'recentActions') { %>
+        <h2>Entered maxCount value: <%= id %> </h2>
+        <button onclick="dropDown(`hidden-data-recentActions`)"><%= id %> recentActions &#8628;</button>
+        <br>
+        <br>
+        <section id="hidden-data-recentActions" style="display: none;">
+            <textarea name="" id="" cols="150" rows="30">
+                <%= linkData.linkrecentActions %> 
+            </textarea>
+        </section>
     <% } %> 
     <script>
         function dropDown(id) {
