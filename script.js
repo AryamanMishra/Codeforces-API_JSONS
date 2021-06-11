@@ -109,9 +109,15 @@ app.get('/methods/:methodName/:id', async(req,res) => {
             linkblogEntry_view = JSON.stringify(linkblogEntry_view)
             
         }
-        finally {
+        try {
             linkblogEntry_comments = await axios.get(`https://codeforces.com/api/blogEntry.comments?blogEntryId=${id}`)
             linkblogEntry_comments = JSON.stringify(linkblogEntry_comments.data)
+        } 
+        catch (err) {
+            linkblogEntry_comments = (err.response.data)
+            linkblogEntry_comments = JSON.stringify(linkblogEntry_comments)
+        }
+        finally {
             linkblogEntry_comments = escapeJson(linkblogEntry_comments)
             linkData.linkblogEntry_comments = linkblogEntry_comments
             linkblogEntry_view = escapeJson(linkblogEntry_view)
