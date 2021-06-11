@@ -162,6 +162,7 @@
             <br>
             <br>
         <% } else { %>
+            <h2>Entered user handle = <%= id %> </h2>
             <button onclick="dropDown('hidden-data-userblogEntries')">user.blogEntries &#8628;</button>
             <br>
             <br>
@@ -185,6 +186,22 @@
                     </textarea>
             </section>
         <% } %> 
+        <!-- <button onclick="dropDown(`hidden-data-ratedListT`)">ratedList(activeOnly=true) &#8628;</button>
+        <br>
+        <br>
+        <section id="hidden-data-ratedListT" style="display: none;">
+            <textarea name="" id="" cols="150" rows="30">
+                <%= //linkData.linkuser_ratedListAOT %> 
+            </textarea>
+        </section>
+        <button onclick="dropDown(`hidden-data-ratedListF`)">ratedList(activeOnly=false) &#8628;</button>
+        <br>
+        <br>
+        <section id="hidden-data-ratedListF" style="display: none;">
+            <textarea name="" id="" cols="150" rows="30">
+                <%= //linkData.linkuser_ratedListAOF %> 
+            </textarea>
+        </section> -->
         <% if (check === 0) { %> 
             <button><a href="/methods/user/forms/handleFiller">user.rating</a></button>
             <br>

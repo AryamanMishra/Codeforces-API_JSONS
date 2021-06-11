@@ -55,8 +55,14 @@ app.get('/methods/:methodName', async(req,res) => {
         res.render('methods/method_home', {methodName,check,countFillercheck})
     }
     else {
-        //let [linkuser_friendsOnlyOT,linkuser_friendsOnlyOF] = await
-        res.render('methods/method_home',{methodName,check})
+        // let [linkuser_ratedListAOT,linkuser_ratedListAOF] = await Promise.all([axios.get('https://codeforces.com/api/user.ratedList?activeOnly=true'),axios.get('https://codeforces.com/api/user.ratedList?activeOnly=false')])
+        // linkuser_ratedListAOT = JSON.stringify(linkuser_ratedListAOT.data)
+        // linkuser_ratedListAOT = escapeJson(linkuser_ratedListAOT)
+        // linkData.linkuser_ratedListAOT = linkuser_ratedListAOT
+        // linkuser_ratedListAOF = JSON.stringify(linkuser_ratedListAOF.data)
+        // linkuser_ratedListAOF = escapeJson(linkuser_ratedListAOF)
+        // linkData.linkuser_ratedListAOF = linkuser_ratedListAOF
+        res.render('methods/method_home',{methodName,check,linkData})
     }
 })
 app.get('/methods/:methodName/forms/:idFiller', (req,res) => {
