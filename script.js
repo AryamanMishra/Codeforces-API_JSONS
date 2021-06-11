@@ -98,14 +98,27 @@ app.get('/methods/:methodName/:id', async(req,res) => {
         //console.log(filler)
     }
     if (methodName === 'blogEntry') {
-        let [linkblogEntry_comments,linkblogEntry_view] = await Promise.all([axios.get(`https://codeforces.com/api/blogEntry.comments?blogEntryId=${id}`),axios.get(`https://codeforces.com/api/blogEntry.view?blogEntryId=${id}`)])
-        linkblogEntry_comments = JSON.stringify(linkblogEntry_comments.data)
-        linkblogEntry_comments = escapeJson(linkblogEntry_comments)
-        linkData.linkblogEntry_comments = linkblogEntry_comments
-        linkblogEntry_view = JSON.stringify(linkblogEntry_view.data)
-        linkblogEntry_view = escapeJson(linkblogEntry_view)
-        linkData.linkblogEntry_view = linkblogEntry_view
-        res.render('methods/method_home', {linkData,id,methodName})
+        let linkblogEntry_comments = null
+        let linkblogEntry_view = null
+        try {
+            linkblogEntry_view = await axios.get(`https://codeforces.com/api/blogEntry.view?blogEntryId=${id}`)
+            linkblogEntry_view = JSON.stringify(linkblogEntry_view.data)
+        }
+        catch(err) {
+            linkblogEntry_view = (err.response.data)
+            linkblogEntry_view = JSON.stringify(linkblogEntry_view)
+            
+        }
+        finally {
+            linkblogEntry_comments = await axios.get(`https://codeforces.com/api/blogEntry.comments?blogEntryId=${id}`)
+            linkblogEntry_comments = JSON.stringify(linkblogEntry_comments.data)
+            linkblogEntry_comments = escapeJson(linkblogEntry_comments)
+            linkData.linkblogEntry_comments = linkblogEntry_comments
+            linkblogEntry_view = escapeJson(linkblogEntry_view)
+            linkData.linkblogEntry_view = linkblogEntry_view
+            res.render('methods/method_home', {linkData,id,methodName})
+        }
+       
     }
     else if (methodName === 'contest') {
         let [linkcontest_hacks,linkcontest_ratingChanges,linkcontest_standings,linkcontest_status] = await Promise.all([axios.get(`https://codeforces.com/api/contest.hacks?contestId=${id}`),axios.get(`https://codeforces.com/api/contest.ratingChanges?contestId=${id}`),axios.get(`https://codeforces.com/api/contest.standings?contestId=${id}`),axios.get(`https://codeforces.com/api/contest.status?contestId=${id}`)])
