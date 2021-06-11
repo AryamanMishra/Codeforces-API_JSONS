@@ -54,6 +54,10 @@ app.get('/methods/:methodName', async(req,res) => {
     else if (methodName === 'problemset') {
         res.render('methods/method_home', {methodName,check,countFillercheck})
     }
+    else {
+        //let [linkuser_friendsOnlyOT,linkuser_friendsOnlyOF] = await
+        res.render('methods/method_home',{methodName,check})
+    }
 })
 app.get('/methods/:methodName/forms/:idFiller', (req,res) => {
     const methodName = req.params.methodName
@@ -146,6 +150,26 @@ app.get('/methods/:methodName/:id', async(req,res) => {
         linkData.linkrecentActions = linkrecentActions
         res.render('methods/method_home', {linkData,methodName,id})
     }
+    else {
+        id = req.params.id.substring(11)
+        //console.log(id)
+        let [linkuser_blogEntries,linkuser_info,linkuser_rating,linkuser_status] = await Promise.all([axios.get(`https://codeforces.com/api/user.blogEntries?handle=${id}`),axios.get(`https://codeforces.com/api/user.info?handles=${id}`),axios.get(`https://codeforces.com/api/user.rating?handle=${id}`),axios.get(`https://codeforces.com/api/user.status?handle=${id}`)])
+        linkuser_blogEntries = JSON.stringify(linkuser_blogEntries.data)
+        linkuser_blogEntries = escapeJson(linkuser_blogEntries)
+        linkData.linkuser_blogEntries = linkuser_blogEntries
+        linkuser_info = JSON.stringify(linkuser_info.data)
+        linkuser_info = escapeJson(linkuser_info)
+        linkData.linkuser_info = linkuser_info
+        linkuser_rating = JSON.stringify(linkuser_rating.data)
+        linkuser_rating = escapeJson(linkuser_rating)
+        linkData.linkuser_rating = linkuser_rating
+        linkuser_status = JSON.stringify(linkuser_status.data)
+        linkuser_status = escapeJson(linkuser_status)
+        linkData.linkuser_status = linkuser_status
+        check = 1
+        res.render('methods/method_home', {linkData,methodName,check,id})
+        check = 0
+    }
 })
 
 
@@ -168,6 +192,9 @@ app.post('/methods/:methodName',  (req,res) => {
     //console.log(req.params.methodName)
     else if (methodName === 'recentActions') {
         res.redirect(`/methods/${req.params.methodName}/maxCount=${id}`)
+    }
+    else if (methodName === 'user') {
+        res.redirect(`/methods/${req.params.methodName}/userHandle=${id}`)
     }
 })
 

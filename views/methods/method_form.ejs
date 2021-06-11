@@ -43,6 +43,16 @@
             <br>
             <button>Submit</button>
         </form> 
-    <% } %>   
+    <% } else { %>
+        <h1>Please enter user handle: </h1>
+        <form action="/methods/<%= methodName %>" method="post">
+            <label for="id"></label>
+            <input type="text" id="id" name="id" max="100" min="0">
+            <br>
+            <br>
+            <button>Submit</button>
+        </form> 
+    <% } %>    
+
 </body>
 </html>

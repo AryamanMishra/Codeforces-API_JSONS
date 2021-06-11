@@ -29,7 +29,7 @@
         <p>
             Note: For methods depending on contest id, fill the id for either one of them and data for that id will be loaded for others too.
             For example, contest.hacks depends on contest id so by clicking on it you will be asked to give a contest id. By entering a valid contest id, data for other id dependent methods
-            like, contest.rating changes, contest.status,contest.standings will also be loaded for the id given by you.
+            like, contest.ratingChanges, contest.status,contest.standings will also be loaded for the id given by you.
         </p>
         <br>
         <% if (check === 0) { %> 
@@ -152,7 +152,68 @@
                 <%= linkData.linkrecentActions %> 
             </textarea>
         </section>
-    <% } %> 
+    <% } else { %>
+        <p> Note: For methods depending on user handle, fill the handle for either one of them and data for that handle will be loaded for others too.
+            For example, user.blogEntries depends on user handle so by clicking on it you will be asked to give a handle. By entering a valid user handle, data for other user handle dependent methods
+            namely, user.info, user.rating,user.status will also be loaded for the user handle given by you.
+        </p>
+        <% if (check === 0) { %> 
+            <button><a href="/methods/user/forms/handleFiller">user.blogEntries</a></button>
+            <br>
+            <br>
+        <% } else { %>
+            <button onclick="dropDown('hidden-data-userblogEntries')">user.blogEntries &#8628;</button>
+            <br>
+            <br>
+            <section id="hidden-data-userblogEntries" style="display: none;">
+                    <textarea name="" id="" cols="150" rows="30">
+                        <%= linkData.linkuser_blogEntries %> 
+                    </textarea>
+            </section>
+        <% } %>  
+        <% if (check === 0) { %> 
+            <button><a href="/methods/user/forms/handleFiller">user.info</a></button>
+            <br>
+            <br>
+        <% } else { %>
+            <button onclick="dropDown('hidden-data-userinfo')">user.info &#8628;</button>
+            <br>
+            <br>
+            <section id="hidden-data-userinfo" style="display: none;">
+                    <textarea name="" id="" cols="150" rows="30">
+                        <%= linkData.linkuser_info %> 
+                    </textarea>
+            </section>
+        <% } %> 
+        <% if (check === 0) { %> 
+            <button><a href="/methods/user/forms/handleFiller">user.rating</a></button>
+            <br>
+            <br>
+        <% } else { %>
+            <button onclick="dropDown('hidden-data-userrating')">user.rating &#8628;</button>
+            <br>
+            <br>
+            <section id="hidden-data-userrating" style="display: none;">
+                    <textarea name="" id="" cols="150" rows="30">
+                        <%= linkData.linkuser_rating %> 
+                    </textarea>
+            </section>
+        <% } %> 
+        <% if (check === 0) { %> 
+            <button><a href="/methods/user/forms/handleFiller">user.status</a></button>
+            <br>
+            <br>
+        <% } else { %>
+            <button onclick="dropDown('hidden-data-userstatus')">user.status &#8628;</button>
+            <br>
+            <br>
+            <section id="hidden-data-userstatus" style="display: none;">
+                    <textarea name="" id="" cols="150" rows="30">
+                        <%= linkData.linkuser_status %> 
+                    </textarea>
+            </section>
+        <% } %> 
+    <% } %>  
     <script>
         function dropDown(id) {
             let data = document.getElementById(id);
