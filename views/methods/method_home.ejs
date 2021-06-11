@@ -8,7 +8,11 @@
 </head>
 <body>
     <% if (methodName === 'blogEntry') { %>
-        <h1>Entered blog id: <%= id %> </h1>
+        <% if (!Number.isInteger(id)) { %>
+            <h1>Entered blog id is not a valid Integer</h1>
+        <% } else { %>  
+            <h1>Entered blog id: <%= id %> </h1>
+        <% } %> 
         <button onclick="dropDown(`hidden-data-comments`)">blogEntry.comments &#8628;</button>
         <br>
         <br>
