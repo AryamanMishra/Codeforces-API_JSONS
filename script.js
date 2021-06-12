@@ -173,7 +173,7 @@ app.get('/methods/:methodName/:id', async(req,res) => {
                 linkproblemset_problems = JSON.stringify(linkproblemset_problems.data)
             }
             catch(err) {
-                console.log('ll')
+                //console.log('ll')
                 linkproblemset_problems = (err.response.data)
                 linkproblemset_problems = JSON.stringify(linkproblemset_problems)
                 errorcheck = true
@@ -189,12 +189,21 @@ app.get('/methods/:methodName/:id', async(req,res) => {
         countFillercheck = false
     }
     else if (methodName === 'recentActions') {
+        let linkrecentActions = null
         id = req.params.id.substring(9)
         id = Number(id)
-        let linkrecentActions = await axios.get(`https://codeforces.com/api/recentActions?maxCount=${id}`)
-        linkrecentActions = JSON.stringify(linkrecentActions.data)
-        linkrecentActions = escapeJson(linkrecentActions)
-        linkData.linkrecentActions = linkrecentActions
+        try {
+            linkrecentActions = await axios.get(`https://codeforces.com/api/recentActions?maxCount=${id}`)
+            linkrecentActions = JSON.stringify(linkrecentActions.data)
+        }
+        catch(err) {
+            linkrecentActions = (err.response.data)
+            linkrecentActions = JSON.stringify(linkrecentActions)
+        }
+        finally {
+            linkrecentActions = escapeJson(linkrecentActions)
+            linkData.linkrecentActions = linkrecentActions
+        }
         res.render('methods/method_home', {linkData,methodName,id})
     }
     else {

@@ -158,7 +158,11 @@
             <br>
         <% } %> 
     <% } else if (methodName === 'recentActions') { %>
-        <h2>Entered maxCount value: <%= id %> </h2>
+        <% if (id > 100) { %>
+            <h2>Entered maxCount value: <%= id %> (greater than 100) </h2>
+        <% } else { %>
+            <h2>Entered maxCount value: <%= id %> </h2>
+        <% } %>   
         <button onclick="dropDown(`hidden-data-recentActions`)"><%= id %> recentActions &#8628;</button>
         <br>
         <br>
