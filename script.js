@@ -107,7 +107,6 @@ app.get('/methods/:methodName/:id', async(req,res) => {
         catch(err) {
             linkblogEntry_view = (err.response.data)
             linkblogEntry_view = JSON.stringify(linkblogEntry_view)
-            
         }
         try {
             linkblogEntry_comments = await axios.get(`https://codeforces.com/api/blogEntry.comments?blogEntryId=${id}`)
@@ -146,23 +145,46 @@ app.get('/methods/:methodName/:id', async(req,res) => {
         check = 0
     }
     else if (methodName === 'problemset') {
+        let linkproblemset_recentStatus = null
+        let linkproblemset_problems = null
+        let errorcheck = false
+        let validitycheck = true
         if (filler === 'countFiller') {
-            //console.log('llll')
-            let linkproblemset_recentStatus = await axios.get(`https://codeforces.com/api/problemset.recentStatus?count=${id}`)
-            linkproblemset_recentStatus = JSON.stringify(linkproblemset_recentStatus.data)
-            linkproblemset_recentStatus = escapeJson(linkproblemset_recentStatus)
-            linkData.linkproblemset_recentStatus = linkproblemset_recentStatus
-            countFillercheck = true
+            try {
+                linkproblemset_recentStatus = await axios.get(`https://codeforces.com/api/problemset.recentStatus?count=${id}`)
+                linkproblemset_recentStatus = JSON.stringify(linkproblemset_recentStatus.data)
+            }
+            catch(err) {
+                linkproblemset_recentStatus = (err.response.data)
+                linkproblemset_recentStatus = JSON.stringify(linkproblemset_recentStatus)
+            }
+            finally {
+                linkproblemset_recentStatus = escapeJson(linkproblemset_recentStatus)
+                linkData.linkproblemset_recentStatus = linkproblemset_recentStatus
+                countFillercheck = true
+            }
         }
         else {
-            //console.log('kkk')
-            let linkproblemset_problems = await axios.get(`https://codeforces.com/api/problemset.problems?tags=${id}`)
-            linkproblemset_problems = JSON.stringify(linkproblemset_problems.data)
-            linkproblemset_problems = escapeJson(linkproblemset_problems)
-            linkData.linkproblemset_problems = linkproblemset_problems
+            try {
+                linkproblemset_problems = await axios.get(`https://codeforces.com/api/problemset.problems?tags=${id}`)
+                if(JSON.stringify(linkproblemset_problems.data.result.problems) === '[]') {
+                    validitycheck = false
+                }
+                linkproblemset_problems = JSON.stringify(linkproblemset_problems.data)
+            }
+            catch(err) {
+                console.log('ll')
+                linkproblemset_problems = (err.response.data)
+                linkproblemset_problems = JSON.stringify(linkproblemset_problems)
+                errorcheck = true
+            }
+            finally {
+                linkproblemset_problems = escapeJson(linkproblemset_problems)
+                linkData.linkproblemset_problems = linkproblemset_problems
+            }
         }
         check = 1
-        res.render('methods/method_home', {linkData,methodName,check,countFillercheck,id})
+        res.render('methods/method_home', {linkData,methodName,check,countFillercheck,id,errorcheck,validitycheck})
         check = 0
         countFillercheck = false
     }
