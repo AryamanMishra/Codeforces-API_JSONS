@@ -181,7 +181,11 @@
             <br>
             <br>
         <% } else { %>
-            <h2>Entered user handle = <%= id %> </h2>
+            <% if (errorcheck) { %>
+                <h2>Invalid user handle : <%= id %> </h2>
+            <% } else { %>  
+                <h2>Entered valid user handle : <%= id %> </h2>
+            <% } %> 
             <button onclick="dropDown('hidden-data-userblogEntries')">user.blogEntries &#8628;</button>
             <br>
             <br>

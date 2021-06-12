@@ -207,23 +207,60 @@ app.get('/methods/:methodName/:id', async(req,res) => {
         res.render('methods/method_home', {linkData,methodName,id})
     }
     else {
+        let linkuser_blogEntries = null
+        let linkuser_info = null
+        let linkuser_rating = null
+        let linkuser_status = null
+        let errorcheck = false
         id = req.params.id.substring(11)
-        //console.log(id)
-        let [linkuser_blogEntries,linkuser_info,linkuser_rating,linkuser_status] = await Promise.all([axios.get(`https://codeforces.com/api/user.blogEntries?handle=${id}`),axios.get(`https://codeforces.com/api/user.info?handles=${id}`),axios.get(`https://codeforces.com/api/user.rating?handle=${id}`),axios.get(`https://codeforces.com/api/user.status?handle=${id}`)])
-        linkuser_blogEntries = JSON.stringify(linkuser_blogEntries.data)
-        linkuser_blogEntries = escapeJson(linkuser_blogEntries)
-        linkData.linkuser_blogEntries = linkuser_blogEntries
-        linkuser_info = JSON.stringify(linkuser_info.data)
-        linkuser_info = escapeJson(linkuser_info)
-        linkData.linkuser_info = linkuser_info
-        linkuser_rating = JSON.stringify(linkuser_rating.data)
-        linkuser_rating = escapeJson(linkuser_rating)
-        linkData.linkuser_rating = linkuser_rating
-        linkuser_status = JSON.stringify(linkuser_status.data)
-        linkuser_status = escapeJson(linkuser_status)
-        linkData.linkuser_status = linkuser_status
+        try {
+            linkuser_blogEntries  = await axios.get(`https://codeforces.com/api/user.blogEntries?handle=${id}`)
+            linkuser_blogEntries = JSON.stringify(linkuser_blogEntries.data)
+        }
+        catch(err) {
+            linkuser_blogEntries = (err.response.data)
+            linkuser_blogEntries = JSON.stringify(linkuser_blogEntries)
+            errorcheck = true
+        }
+        try {
+            linkuser_info = await axios.get(`https://codeforces.com/api/user.info?handles=${id}`)
+            linkuser_info = JSON.stringify(linkuser_info.data)
+        } 
+        catch (err) {
+            linkuser_info = (err.response.data)
+            linkuser_info = JSON.stringify(linkuser_info)
+        }
+        try {
+            linkuser_rating = await axios.get(`https://codeforces.com/api/user.rating?handle=${id}`)
+            linkuser_rating = JSON.stringify(linkuser_rating.data)
+        } 
+        catch (err) {
+            linkuser_rating = (err.response.data)
+            linkuser_rating = JSON.stringify(linkuser_rating)
+        }
+        try {
+            linkuser_status = await axios.get(`https://codeforces.com/api/user.status?handle=${id}`)
+            linkuser_status = JSON.stringify(linkuser_status.data)
+        } 
+        catch (err) {
+            linkuser_status = (err.response.data)
+            linkuser_status = JSON.stringify(linkuser_status)
+        }
+        finally {
+            linkuser_blogEntries = escapeJson(linkuser_blogEntries)
+            linkData.linkuser_blogEntries = linkuser_blogEntries
+            
+            linkuser_info = escapeJson(linkuser_info)
+            linkData.linkuser_info = linkuser_info
+            
+            linkuser_rating = escapeJson(linkuser_rating)
+            linkData.linkuser_rating = linkuser_rating
+            
+            linkuser_status = escapeJson(linkuser_status)
+            linkData.linkuser_status = linkuser_status
+        }
         check = 1
-        res.render('methods/method_home', {linkData,methodName,check,id})
+        res.render('methods/method_home', {linkData,methodName,check,id,errorcheck})
         check = 0
     }
 })
