@@ -121,9 +121,9 @@
 				<h2>Invalid Problem tag <%= id %> , please cross-check the tag you have entered</h2>
 			<% } else if (!validitycheck) { %> 
 				<h2>Problem Tag: <%= id %></h2>
-				<h3>Note: The problem tag '<%= id %>' seems incorrect and you might want to re-check it. Anyways here's your JSON: </h3>
+				<h3>Note: The problem tag '<%= id %>' seems incorrect and you might want to re-check it. Anyways requested JSON is: </h3>
 			<% } else { %> 
-            	<h2>Problem Tag: <%= id %> </h2>
+            	<h2>Problem Tag : <%= id %> </h2>
 			<% } %> 
             <button onclick="dropDown('hidden-data-problems')"><%= methodName %>.problems &#8628;</button>
             <br>
