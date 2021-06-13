@@ -6,7 +6,16 @@ h1 {
     text-align: center;
     font-size: 2em;
     color: white;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.link {
+    text-align: left;
+}
+
+.link a {
+    color: aqua;
+    font-size: 1.2em;
 }
 
 .buttons #blogEntry  {
