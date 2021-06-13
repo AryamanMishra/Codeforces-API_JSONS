@@ -1,0 +1,133 @@
+body {
+    background-color: black;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2em;
+    color: white;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.buttons #blogEntry  {
+    background-color:blueviolet;
+    position: absolute;
+    font-size: 2em;
+    top: 22%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 6em;
+    height: 3em;
+}
+
+.buttons #blogEntry a {
+    text-decoration: none;
+    color: black;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+}
+
+.buttons #blogEntry:hover {
+    background-color: white;
+}
+
+.buttons #contest  {
+    background-color:blueviolet;
+    position: absolute;
+    font-size: 2em;
+    top: 37%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 6em;
+    height: 3em;
+}
+
+.buttons #contest a {
+    text-decoration: none;
+    color: black;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+}
+
+.buttons #contest:hover {
+    background-color: white;
+}
+
+.buttons #problemset {
+    background-color:blueviolet;
+    position: absolute;
+    font-size: 2em;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 6.6em;
+    height: 3em;
+}
+
+.buttons #problemset a {
+    text-decoration: none;
+    color: black;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+}
+
+.buttons #problemset:hover {
+    background-color: white;
+}
+
+
+.buttons #recentActions {
+    background-color:blueviolet;
+    position: absolute;
+    font-size: 2em;
+    top: 67%;
+    left: 50.2%;
+    transform: translate(-50%,-50%);
+    width: 8em;
+    height: 3em;
+}
+
+.buttons #recentActions a {
+    text-decoration: none;
+    color: black;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+}
+
+.buttons #recentActions:hover {
+    background-color: white;
+}
+
+
+.buttons #user {
+    background-color:blueviolet;
+    position: absolute;
+    font-size: 2em;
+    top: 82%;
+    left: 50.2%;
+    transform: translate(-50%,-50%);
+    width: 8em;
+    height: 3em;
+}
+
+.buttons #user a {
+    text-decoration: none;
+    color: black;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+}
+
+.buttons #user:hover {
+    background-color: white;
+}
+
+
+
+
+
+
+
+.buttons button:hover {
+    transition: all 0.8s ease-in;
+    cursor: pointer;
+}

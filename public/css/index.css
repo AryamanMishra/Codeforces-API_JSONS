@@ -1,10 +1,12 @@
 body {
     background-color: black;
 }
+
 h1 {
     color:white;
     text-align: center;
 }
+
 .buttons button  {
     background-color:blueviolet;
     font-size: 2em;
@@ -15,12 +17,15 @@ h1 {
     width: 5em;
     height: 2.5em;
 }
+
 .buttons button a {
-    color: white;
+    color: black;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;  
     text-decoration: none;
 }
-.buttons :hover {
+
+.buttons button:hover {
     transition: all 1s ease-in;
     cursor: pointer;
-    background-color: black;
+    background-color: white;
 }
