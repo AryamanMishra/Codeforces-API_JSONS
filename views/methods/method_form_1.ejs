@@ -5,15 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Count needed</title>
+    <link rel="stylesheet" href="/css/method_form_1.css">
 </head>
 <body>
-    <h1>Please enter count: </h1>
-        <form action="/methods/<%= methodName %>" method="post">
+    <h1><u>Please enter count:</u></h1>
+    <br>
+    <br>
+    <br>
+    <form action="/methods/<%= methodName %>" method="post">
+        <div class="input">
             <label for="id"></label>
             <input type="number" id="id" name="id">
-            <br>
-            <br>
-            <button>Submit</button>
-        </form> 
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="submit-button">   
+            <button id="submit">Submit</button>
+        </div>
+    </form> 
 </body>
 </html>

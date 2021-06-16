@@ -16,7 +16,7 @@
         <% } %> 
         <br>
         <br>
-        <div class="main">
+        <div class="main-bE">
             <button onclick="dropDown(`hidden-data-comments`)">blogEntry.comments &#8628;</button>
             <br>
             <br>
@@ -113,35 +113,35 @@
             </section>
         <% } %> 
     <% } else if (methodName === 'problemset') {%>
-        <div class="main">
+        <section class="main-pS">
             <% if (check === 0) { %> 
-                <button><a href="/methods/problemset/forms/tagFiller"><%= methodName %>.problems</a></button> (Requires problem tag)
+                <button><a href="/methods/problemset/forms/tagFiller"><%= methodName %>.problems</a></button> <span>(Requires problem tag)</span>
                 <br>
                 <br>    
             <% } else if (countFillercheck === true) { %>
-                <button><a href="/methods/problemset/forms/tagFiller"><%= methodName %>.problems</a></button>  (Requires problem tag)
+                <button style="border-left: 10em;"><a href="/methods/problemset/forms/tagFiller"><%= methodName %>.problems</a></button> <span>(Requires problem tag)</span>
                 <br>
                 <br>
             <% } else { %>
                 <% if (errorcheck) { %> 
-                    <h2>Invalid Problem tag <%= id %> , please cross-check the tag you have entered</h2>
+                    <h2 style="text-align: center; color:white;">Invalid Problem tag <%= id %> , please cross-check the tag you have entered</h2>
                 <% } else if (!validitycheck) { %> 
-                    <h2>Problem Tag: <%= id %></h2>
-                    <h3>Note: The problem tag '<%= id %>' seems incorrect and you might want to re-check it. Anyways requested JSON is: </h3>
+                    <h2 style="text-align: center; color:white;">Problem Tag: <%= id %></h2>
+                    <h3 style="text-align: center; color:white;">Note: The problem tag '<%= id %>' seems incorrect and you might want to re-check it. Anyways requested JSON is: </h3>
                 <% } else { %> 
-                    <h2>Problem Tag : <%= id %> </h2>
+                    <h2 style="text-align: center; color:white;">Problem Tag : <%= id %> </h2>
                 <% } %> 
                 <button onclick="dropDown('hidden-data-problems')"><%= methodName %>.problems &#8628;</button>
                 <br>
                 <br>
                 <section id="hidden-data-problems" style="display: none;">
-                    <textarea name="" id="" cols="150" rows="30">
+                    <textarea id="data" cols="150" rows="30">
                         <%= linkData.linkproblemset_problems %> 
                     </textarea>
                 </section>
             <% } %>  
             <% if (check === 0) { %> 
-                <button><a href="/methods/problemset/forms/countFiller" target="_blank"><%= methodName %>.recentStatus</a></button> (Requires count of number of submissions)
+                <button><a href="/methods/problemset/forms/countFiller" target="_blank"><%= methodName %>.recentStatus</a></button> <span>(Requires count of number of submissions)</span>
                 <br>
                 <br>
             <% } else if (countFillercheck === true) { %>
@@ -150,20 +150,20 @@
                 <% } else { %> 
                     <h2>Count value: <%= id %> </h2>
                 <% } %> 
-                <button onclick="dropDown('hidden-data-rS')"><%= methodName %>.recentStatus &#8628;</button>
+                <button onclick="dropDown('hidden-data-rS')" style="border-left: 10em;"><%= methodName %>.recentStatus &#8628;</button>
                 <br>
                 <br>
                 <section id="hidden-data-rS" style="display: none;">
-                    <textarea name="" id="" cols="150" rows="30">
+                    <textarea name="" id="data" cols="150" rows="30">
                         <%= linkData.linkproblemset_recentStatus %> 
                     </textarea>
                 </section> 
             <% } else { %>
-                <button><a href="/methods/problemset/forms/countFiller" target="_blank"><%= methodName %>.recentStatus</a></button>(Requires count of number of submissions)
+                <button style="border-left: 10em;"><a href="/methods/problemset/forms/countFiller" target="_blank"><%= methodName %>.recentStatus</a></button> <span>(Requires count of number of submissions)</span>
                 <br>
                 <br>
             <% } %> 
-        </div>
+        </section>
     <% } else if (methodName === 'recentActions') { %>
         <% if (id > 100) { %>
             <h2>Entered maxCount value: <%= id %> (greater than 100) </h2>

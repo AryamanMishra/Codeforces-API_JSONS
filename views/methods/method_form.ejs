@@ -35,13 +35,20 @@
             <button>Submit</button>
         </form> 
     <% } else if (methodName === 'problemset') {%> 
-        <h1>Please enter problem tag </h1>
+        <h1><u>Please enter problem tag</u></h1>
+        <br>
+        <br>
+        <br>
         <form action="/methods/<%= methodName %>" method="post">
-            <label for="id"></label>
-            <input type="text" id="id" name="id">
+            <div class="input">
+                <label for="id"></label>
+                <input type="text" id="id" name="id">
+            </div>
             <br>
             <br>
-            <button>Submit</button>
+            <div class="submit-button">   
+                <button id="submit">Submit</button>
+            </div>
         </form> 
     <% } else if (methodName === 'recentActions') { %>
         <h1>Please enter maxCount value</h1>

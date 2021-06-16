@@ -9,9 +9,9 @@ h1 {
     text-align: center;
 }
 .input #id {
-    color: white;
     background-color: brown;
     height: 2em;
+    color: white;
 }
 .submit-button {
     text-align: center;
