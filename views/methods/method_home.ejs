@@ -113,6 +113,7 @@
             </section>
         <% } %> 
     <% } else if (methodName === 'problemset') {%>
+        <h1 id="psHeading">Problemset's methods : </h1>
         <section class="main-pS">
             <% if (check === 0) { %> 
                 <button><a href="/methods/problemset/forms/tagFiller"><%= methodName %>.problems</a></button> <span>(Requires problem tag)</span>
@@ -146,9 +147,9 @@
                 <br>
             <% } else if (countFillercheck === true) { %>
                 <% if (id > 1000) {%> 
-                    <h2>Count value: <% id %>(greater than 1000) </h2>
+                    <h2 style="text-align: center; color:white;">Count value: <% id %>(greater than 1000) </h2>
                 <% } else { %> 
-                    <h2>Count value: <%= id %> </h2>
+                    <h2 style="text-align: center; color:white;">Count value: <%= id %> </h2>
                 <% } %> 
                 <button onclick="dropDown('hidden-data-rS')" style="border-left: 10em;"><%= methodName %>.recentStatus &#8628;</button>
                 <br>
