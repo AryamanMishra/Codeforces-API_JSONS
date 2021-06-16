@@ -1,0 +1,29 @@
+body {
+    background-color: black;
+}
+h1 {
+    color: white;
+    text-align: center
+}
+.input {
+    text-align: center;
+}
+.input #id {
+    background-color: brown;
+    height: 2em;
+}
+.submit-button {
+    text-align: center;
+}
+#submit {
+    background-color: black;
+    cursor: pointer;
+    color: white;
+    height: 4em;
+    width: 7em;
+    font-size: 1.2em;
+    left: 50%;
+}
+#submit:hover {
+    background-color:green;
+}
