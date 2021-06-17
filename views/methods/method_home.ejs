@@ -167,18 +167,22 @@
         </section>
     <% } else if (methodName === 'recentActions') { %>
         <% if (id > 100) { %>
-            <h2>Entered maxCount value: <%= id %> (greater than 100) </h2>
+            <h2 style="text-align: center; color:white;">Entered maxCount value: <%= id %> (greater than 100) </h2>
+        <% } else if(id < 1) { %>
+            <h2 style="text-align: center; color:white;">Entered maxCount value: <%= id %> (less than 1)</h2> 
         <% } else { %>
-            <h2>Entered maxCount value: <%= id %> </h2>
-        <% } %>   
-        <button onclick="dropDown(`hidden-data-recentActions`)"><%= id %> recentActions &#8628;</button>
-        <br>
-        <br>
-        <section id="hidden-data-recentActions" style="display: none;">
-            <textarea name="" id="" cols="150" rows="30">
-                <%= linkData.linkrecentActions %> 
-            </textarea>
-        </section>
+            <h2 style="text-align: center; color:white;">Entered maxCount value: <%= id %> </h2>
+        <% } %>  
+        <section class="main-rA">
+            <button onclick="dropDown(`hidden-data-recentActions`)"><%= id %> recentActions &#8628;</button>
+            <br>
+            <br>
+            <section id="hidden-data-recentActions" style="display: none;">
+                <textarea id="data" cols="150" rows="30">
+                    <%= linkData.linkrecentActions %> 
+                </textarea>
+            </section>
+        </section> 
     <% } else { %>
         <p> Note: For methods depending on user handle, fill the handle for either one of them and data for that handle will be loaded for others too.
             For example, user.blogEntries depends on user handle so by clicking on it you will be asked to give a handle. By entering a valid user handle, data for other user handle dependent methods

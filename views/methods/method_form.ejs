@@ -53,11 +53,15 @@
     <% } else if (methodName === 'recentActions') { %>
         <h1>Please enter maxCount value</h1>
         <form action="/methods/<%= methodName %>" method="post">
-            <label for="id"></label>
-            <input type="number" id="id" name="id">
+            <div class="input">
+                <label for="id"></label>
+                <input type="text" id="id" name="id">
+            </div>
             <br>
             <br>
-            <button>Submit</button>
+            <div class="submit-button">   
+                <button id="submit">Submit</button>
+            </div>
         </form> 
     <% } else { %>
         <h1>Please enter user handle: </h1>
