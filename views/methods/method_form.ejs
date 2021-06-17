@@ -66,11 +66,15 @@
     <% } else { %>
         <h1>Please enter user handle: </h1>
         <form action="/methods/<%= methodName %>" method="post">
-            <label for="id"></label>
-            <input type="text" id="id" name="id" max="100" min="0">
+            <div class="input">
+                <label for="id"></label>
+                <input type="text" id="id" name="id">
+            </div>
             <br>
             <br>
-            <button>Submit</button>
+            <div class="submit-button">   
+                <button id="submit">Submit</button>
+            </div>
         </form> 
     <% } %>    
 </body>
