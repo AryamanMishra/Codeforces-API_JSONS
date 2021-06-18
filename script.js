@@ -1,21 +1,54 @@
+/*
+
+Codeforces_API-JSONS
+READ THE COMMENTS CAREFULLY AS THE CODE IS LITTLE COMPLEX AND LENGTHY PROCEDURALLY
+
+*/
+
+
+/* All the required npm modules */
 const express = require('express')
 const path = require('path')
-const app = express() 
+const app = express() // Calling express and assigning to app
 const axios = require('axios')
 
+
+
+/* Setting views folder as default for looking in ejs files and adding it to path */
 app.set('views',path.join(__dirname,'views'))
+
+
+/* View engine -> ejs */
 app.set('view engine','ejs')
+
+
+/* For static files like css and html */
 app.use(express.static(__dirname + '/public'));
+
+
+/* For parsing resolved promise data in JSON format */
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 
+
+/* 
+    Functional code starts here 
+*/
+
+
+
+/* The main object storing all the data to be passed, in key value pair */
 let linkData = {}
+
+
 let check = 0
-let filler = null
+let filler = null // Store type of attribute to be passed in link, rendering form
 let id = null
 let countFillercheck = false
 
+
+/* To replace characters like <,> into their unicode forms imlplying by codefoces API*/
 const escapeJson = function (json) {
     if (typeof json !== 'string') {
 	return json;
@@ -26,25 +59,33 @@ const escapeJson = function (json) {
 };
 
 
-
+/* Home page */
 app.get('/', (req,res) => {
     res.render('index')
 })
 
 
+/* To show page containing all methods */
 app.get('/methods', (req,res) => {
     res.render('methods/home')
 })
 
+
+/* GET function for a particular method's provider */
 app.get('/methods/:methodName', async(req,res) => {
     const methodName = req.params.methodName
     if (methodName === 'blogEntry' || methodName === 'recentActions') {
-        res.render(`methods/method_form`, {methodName})
+        res.render(`methods/method_form`, {methodName}) // Different page rendered according to methods demanded
     }
     else if (methodName === 'contest') {
+
+        /* awating all at once have a slight time advantage over individual awaiting */
         let [linkcontest_listT,linkcontest_listF] = await Promise.all([axios.get(`https://codeforces.com/api/contest.list?gym=true`),axios.get(`https://codeforces.com/api/contest.list?gym=false`)])
+        /* Variable reassigned to its data key's value after stringifying the JSON */
         linkcontest_listT = JSON.stringify(linkcontest_listT.data)
+        /* Running escape JSON for unicode characters need */
         linkcontest_listT = escapeJson(linkcontest_listT)
+        /* The parsed data is actually a bigger ibject but we extract the data key to get the data */
         linkcontest_listF = JSON.stringify(linkcontest_listF.data)
         linkcontest_listF = escapeJson(linkcontest_listF)
         linkData.linkcontest_listT = linkcontest_listT
@@ -62,12 +103,20 @@ app.get('/methods/:methodName', async(req,res) => {
         // linkuser_ratedListAOF = JSON.stringify(linkuser_ratedListAOF.data)
         // linkuser_ratedListAOF = escapeJson(linkuser_ratedListAOF)
         // linkData.linkuser_ratedListAOF = linkuser_ratedListAOF
+
+        /* ^ Time taking awaits above thats why scrapped out for now ^ */
+
         res.render('methods/method_home',{methodName,check,linkData})
     }
 })
+
+
+/* Method to render a form requireing attribute to be specified and then give JSON for that attribute related data */
 app.get('/methods/:methodName/forms/:idFiller', (req,res) => {
     const methodName = req.params.methodName
-    filler = req.params.idFiller
+    filler = req.params.idFiller // globalised to pass in render
+
+    /* Treated seperately as both methods in problemset's methods requires different attribute */
     if (methodName === 'problemset') {
         if (filler === 'tagFiller')
             res.render(`methods/method_form`, {methodName ,filler})
@@ -80,6 +129,8 @@ app.get('/methods/:methodName/forms/:idFiller', (req,res) => {
 })
 
 
+
+/* GET method for rendering after been specified the attribute */
 app.get('/methods/:methodName/:id', async(req,res) => {
     const methodName = req.params.methodName
     if (methodName === 'blogEntry' || methodName === 'contest') {
@@ -293,6 +344,7 @@ app.post('/methods/:methodName',  (req,res) => {
 
 
 
+/* Listenging on PORT 8080 */
 app.listen(8080, () => {
     console.log('LISTENING ON PORT 8080')
 })
