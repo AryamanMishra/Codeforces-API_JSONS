@@ -1,7 +1,11 @@
 /*
 
 Codeforces_API-JSONS
-READ THE COMMENTS CAREFULLY AS THE CODE IS LITTLE COMPLEX AND LENGTHY PROCEDURALLY
+READ THE COMMENTS CAREFULLY AS THE CODE IS LITTLE COMPLEX AND LENGTHY PROCEDURALLY.
+NOTE - If in comments I am mentioning for example, blogEntry as a method, that doesnt mean blogEntry is itself a method in CF API.
+It simply means that, I am talking about the methods related to blogEntry which are, blogEntry.comments and blogEntry.views.
+Same for every other mentioned "methods"(like problemset method means I am talking about problemset.problems and problemset.recentStatus methods in CF API)
+For more details on this visit - https://codeforces.com/apiHelp
 
 */
 
@@ -114,7 +118,7 @@ app.get('/methods/:methodName', async(req,res) => {
 /* Method to render a form requiring attribute to be specified and then give JSON for that attribute related data */
 app.get('/methods/:methodName/forms/:idFiller', (req,res) => {
     const methodName = req.params.methodName
-    filler = req.params.idFiller // globalised to pass in render
+    filler = req.params.idFiller // globalised to pass in render and to use in later requests
 
     /* Treated seperately as both methods in problemset's methods requires different attribute */
     if (methodName === 'problemset') {
@@ -156,7 +160,7 @@ app.get('/methods/:methodName/:id', async(req,res) => {
             linkblogEntry_view = JSON.stringify(linkblogEntry_view.data)
         }
         catch(err) {
-            linkblogEntry_view = (err.response.data)
+            linkblogEntry_view = (err.response.data) // The generated error response has data stored in data key
             linkblogEntry_view = JSON.stringify(linkblogEntry_view) 
             /* Stringified catch code too because, user may want wrong attribute JSON too */
             /* For example, blog id = -1 will be an error but will have a JSON too */
@@ -169,6 +173,8 @@ app.get('/methods/:methodName/:id', async(req,res) => {
             linkblogEntry_comments = (err.response.data)
             linkblogEntry_comments = JSON.stringify(linkblogEntry_comments)
         }
+
+        /* This code should run no matter if its an error or not because JSON is generated for both the cases */
         finally {
             linkblogEntry_comments = escapeJson(linkblogEntry_comments)
             linkData.linkblogEntry_comments = linkblogEntry_comments
@@ -178,6 +184,10 @@ app.get('/methods/:methodName/:id', async(req,res) => {
         }
        
     }
+
+
+    /************* Issue code starts(time to load around 15 seconds) **************/
+    /* try catch remaining for this section */
     else if (methodName === 'contest') {
         let [linkcontest_hacks,linkcontest_ratingChanges,linkcontest_standings,linkcontest_status] = await Promise.all([axios.get(`https://codeforces.com/api/contest.hacks?contestId=${id}`),axios.get(`https://codeforces.com/api/contest.ratingChanges?contestId=${id}`),axios.get(`https://codeforces.com/api/contest.standings?contestId=${id}`),axios.get(`https://codeforces.com/api/contest.status?contestId=${id}`)])
         linkcontest_hacks = JSON.stringify(linkcontest_hacks.data)
@@ -197,11 +207,18 @@ app.get('/methods/:methodName/:id', async(req,res) => {
         res.render('methods/method_home', {linkData,methodName,check,id})
         check = 0
     }
+    /************* Issue code ends ****************/
+
+
     else if (methodName === 'problemset') {
         let linkproblemset_recentStatus = null
         let linkproblemset_problems = null
-        let errorcheck = false
-        let validitycheck = true
+        let errorcheck = false // Basically tests if the user has entered a valid problem tag. If not tells them but still give JSON
+        let validitycheck = true 
+        /* Basically works when response is ok but the number of problems with this tag is 0
+        and so user might have done a spelling mistake or a similar fault. Just to add extra feature*/
+
+        /* This filler is filled from the previous GET request(line number 117) and thus globally declared */
         if (filler === 'countFiller') {
             try {
                 linkproblemset_recentStatus = await axios.get(`https://codeforces.com/api/problemset.recentStatus?count=${id}`)
@@ -214,14 +231,14 @@ app.get('/methods/:methodName/:id', async(req,res) => {
             finally {
                 linkproblemset_recentStatus = escapeJson(linkproblemset_recentStatus)
                 linkData.linkproblemset_recentStatus = linkproblemset_recentStatus
-                countFillercheck = true
+                countFillercheck = true // The count part is been filled so show only that and hide the other
             }
         }
         else {
             try {
                 linkproblemset_problems = await axios.get(`https://codeforces.com/api/problemset.problems?tags=${id}`)
                 if(JSON.stringify(linkproblemset_problems.data.result.problems) === '[]') {
-                    validitycheck = false
+                    validitycheck = false // No problems by this tag found(suspicious tag) (status:OK)
                 }
                 linkproblemset_problems = JSON.stringify(linkproblemset_problems.data)
             }
@@ -229,22 +246,26 @@ app.get('/methods/:methodName/:id', async(req,res) => {
                 //console.log('ll')
                 linkproblemset_problems = (err.response.data)
                 linkproblemset_problems = JSON.stringify(linkproblemset_problems)
-                errorcheck = true
+                errorcheck = true // status:FAILED by CF API, tags
             }
+
+            /* Works in every condition */
             finally {
                 linkproblemset_problems = escapeJson(linkproblemset_problems)
                 linkData.linkproblemset_problems = linkproblemset_problems
             }
         }
-        check = 1
+        check = 1 /*The data is requested and to show it on HTML this checker is used */
         res.render('methods/method_home', {linkData,methodName,check,countFillercheck,id,errorcheck,validitycheck})
         check = 0
         countFillercheck = false
-    }
+    }  
+
+    /* Probably the simplest method */
     else if (methodName === 'recentActions') {
         let linkrecentActions = null
-        id = req.params.id.substring(9)
-        id = Number(id)
+        id = req.params.id.substring(9) // extracting the attribute been specified
+        id = Number(id) // Converted to integer
         try {
             linkrecentActions = await axios.get(`https://codeforces.com/api/recentActions?maxCount=${id}`)
             linkrecentActions = JSON.stringify(linkrecentActions.data)
@@ -254,7 +275,7 @@ app.get('/methods/:methodName/:id', async(req,res) => {
             linkrecentActions = JSON.stringify(linkrecentActions)
         }
         finally {
-            linkrecentActions = escapeJson(linkrecentActions)
+            linkrecentActions = escapeJson(linkrecentActions) // See line 52 for this method
             linkData.linkrecentActions = linkrecentActions
         }
         res.render('methods/method_home', {linkData,methodName,id})
@@ -265,7 +286,7 @@ app.get('/methods/:methodName/:id', async(req,res) => {
         let linkuser_rating = null
         let linkuser_status = null
         let errorcheck = false
-        id = req.params.id.substring(11)
+        id = req.params.id.substring(11) // extracting the attribute been specified
         try {
             linkuser_blogEntries  = await axios.get(`https://codeforces.com/api/user.blogEntries?handle=${id}`)
             linkuser_blogEntries = JSON.stringify(linkuser_blogEntries.data)
@@ -273,7 +294,7 @@ app.get('/methods/:methodName/:id', async(req,res) => {
         catch(err) {
             linkuser_blogEntries = (err.response.data)
             linkuser_blogEntries = JSON.stringify(linkuser_blogEntries)
-            errorcheck = true
+            errorcheck = true // User handle specified is status:FAILED
         }
         try {
             linkuser_info = await axios.get(`https://codeforces.com/api/user.info?handles=${id}`)
@@ -310,7 +331,8 @@ app.get('/methods/:methodName/:id', async(req,res) => {
             linkData.linkuser_rating = linkuser_rating
             
             linkuser_status = escapeJson(linkuser_status)
-            linkData.linkuser_status = linkuser_status
+            linkData.linkuser_status = linkuser_status 
+            /* Adding everything in linkData as key value pair */
         }
         check = 1
         res.render('methods/method_home', {linkData,methodName,check,id,errorcheck})
@@ -319,12 +341,16 @@ app.get('/methods/:methodName/:id', async(req,res) => {
 })
 
 
+
+/* POST request for the form filled by user to give the attribute */
 app.post('/methods/:methodName',  (req,res) => {
     const methodName = req.params.methodName
     id = req.body.id
+
+    /* Every method has different attribute and some are integers and some are string */
     if (methodName === 'blogEntry' || methodName === 'contest') {
         id = Number(id)
-        res.redirect(`/methods/${req.params.methodName}/id=${id}`)
+        res.redirect(`/methods/${req.params.methodName}/id=${id}`) /* Redirecting after been given the attribute */
     }
     if (methodName === 'problemset') {
         if (filler === 'countFiller') {
@@ -346,7 +372,7 @@ app.post('/methods/:methodName',  (req,res) => {
 
 
 
-/* Listenging on PORT 8080 */
+/* Listening on PORT 8080 */
 app.listen(8080, () => {
     console.log('LISTENING ON PORT 8080')
 })
