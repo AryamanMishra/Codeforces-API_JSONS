@@ -104,14 +104,14 @@ app.get('/methods/:methodName', async(req,res) => {
         // linkuser_ratedListAOF = escapeJson(linkuser_ratedListAOF)
         // linkData.linkuser_ratedListAOF = linkuser_ratedListAOF
 
-        /* ^ Time taking awaits above thats why scrapped out for now ^ */
+        /* ^ Time taking awaits above, thats why scrapped out for now ^ */
 
         res.render('methods/method_home',{methodName,check,linkData})
     }
 })
 
 
-/* Method to render a form requireing attribute to be specified and then give JSON for that attribute related data */
+/* Method to render a form requiring attribute to be specified and then give JSON for that attribute related data */
 app.get('/methods/:methodName/forms/:idFiller', (req,res) => {
     const methodName = req.params.methodName
     filler = req.params.idFiller // globalised to pass in render
@@ -134,16 +134,16 @@ app.get('/methods/:methodName/forms/:idFiller', (req,res) => {
 app.get('/methods/:methodName/:id', async(req,res) => {
     const methodName = req.params.methodName
     if (methodName === 'blogEntry' || methodName === 'contest') {
-        id = req.params.id.substring(3)
+        id = req.params.id.substring(3) // extracting the attribute been specified
         id = Number(id)
     }
     else if (methodName === 'problemset') {
         if (filler === 'countFiller') {
-            id = req.params.id.substring(6)
+            id = req.params.id.substring(6) // extracting the attribute been specified
             id = Number(id)
         }
         else {
-            id = req.params.id.substring(5)
+            id = req.params.id.substring(5) // extracting the attribute been specified
         }
         //console.log(id)
         //console.log(filler)
@@ -157,7 +157,9 @@ app.get('/methods/:methodName/:id', async(req,res) => {
         }
         catch(err) {
             linkblogEntry_view = (err.response.data)
-            linkblogEntry_view = JSON.stringify(linkblogEntry_view)
+            linkblogEntry_view = JSON.stringify(linkblogEntry_view) 
+            /* Stringified catch code too because, user may want wrong attribute JSON too */
+            /* For example, blog id = -1 will be an error but will have a JSON too */
         }
         try {
             linkblogEntry_comments = await axios.get(`https://codeforces.com/api/blogEntry.comments?blogEntryId=${id}`)
