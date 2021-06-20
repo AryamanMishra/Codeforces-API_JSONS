@@ -21,17 +21,15 @@
             <br>
             <br>
             <section id="hidden-data-comments" style="display: none;">
-                <textarea id="data" cols="120" rows="28">
-                    <%= linkData.linkblogEntry_comments %> 
-                </textarea>
+                <textarea id="data" cols="120" rows="28" readonly><%= linkData.linkblogEntry_comments %> 
+                </textarea>   <button onclick="copy('hidden-data-comments')" style="width: 3em;height:1.5em;">Copy</button>
             </section>
             <button onclick="dropDown('hidden-data-view')">blogEntry.view &#8628;</button>
             <br>
             <br>
             <section id="hidden-data-view" style="display: none;">
-                <textarea name="" id="data" cols="80" rows="20">
-                    <%= linkData.linkblogEntry_view %> 
-                </textarea>
+                <textarea id="data" cols="83" rows="20" readonly><%= linkData.linkblogEntry_view %>   
+                </textarea>   <button onclick="copy('hidden-data-view')" style="width: 3em;height:1.5em;">Copy</button>  
             </section>
         </div>
     <% } else  if (methodName === 'contest'){ %>
@@ -53,26 +51,23 @@
                 <br>
                 <br>
                 <section id="hidden-data-hacks" style="display: none;">
-                        <textarea id="data" cols="150" rows="30">
-                            <%= linkData.linkcontest_ratingChanges %> 
-                        </textarea>
+                        <textarea id="data" cols="150" rows="30" readonly><%= linkData.linkcontest_ratingChanges %> 
+                        </textarea>   <button onclick="copy('hidden-data-hacks')" style="width: 3em;height:1.5em;">Copy</button>
                 </section>
             <% } %> 
             <button onclick="dropDown('hidden-data-listT')">contest.list(gym=true) &#8628;</button>
             <br>
             <br>
             <section id="hidden-data-listT" style="display: none;">
-                <textarea id="data" cols="150" rows="30">
-                    <%= linkData.linkcontest_listT %> 
-                </textarea>
+                <textarea id="data" cols="150" rows="30" readonly><%= linkData.linkcontest_listT %> 
+                </textarea>   <button onclick="copy('hidden-data-listT')" style="width: 3em;height:1.5em;">Copy</button>
             </section>
             <button onclick="dropDown('hidden-data-listF')">contest.list(gym=false) &#8628;</button>
             <br>
             <br>
             <section id="hidden-data-listF" style="display: none;">
-                <textarea id="data" cols="150" rows="30">
-                    <%= linkData.linkcontest_listF %> 
-                </textarea>
+                <textarea id="data" cols="150" rows="30" readonly><%= linkData.linkcontest_listF %> 
+                </textarea>   <button onclick="copy('hidden-data-listF')" style="width: 3em;height:1.5em;">Copy</button>
             </section>
             <% if (check === 0) { %> 
                 <button><a href="/methods/contest/forms/idFiller">contest.ratingChanges</a></button>
@@ -83,9 +78,8 @@
                 <br>
                 <br>
                 <section id="hidden-data-rC" style="display: none;">
-                        <textarea id="data" cols="150" rows="30">
-                            <%= linkData.linkcontest_ratingChanges %> 
-                        </textarea>
+                        <textarea id="data" cols="150" rows="30" readonly><%= linkData.linkcontest_ratingChanges %> 
+                        </textarea>   <button onclick="copy('hidden-data-rc')" style="width: 3em;height:1.5em;">Copy</button>
                 </section>
             <% } %> 
             <% if (check === 0) { %> 
@@ -97,9 +91,8 @@
                 <br>
                 <br>
                 <section id="hidden-data-stan" style="display: none;">
-                        <textarea id="data" cols="150" rows="30">
-                            <%= linkData.linkcontest_standings %> 
-                        </textarea> 
+                        <textarea id="data" cols="150" rows="30" readonly><%= linkData.linkcontest_standings %> 
+                        </textarea>   <button onclick="copy('hidden-data-stan')" style="width: 3em;height:1.5em;">Copy</button> 
                 </section>
             <% } %>
             <% if (check === 0) { %> 
@@ -109,9 +102,8 @@
             <% } else { %> 
                 <button onclick="dropDown('hidden-data-status')">contest.status(This button takes time to load and show data due to the slow response from CF API) &#8628;</button>
                 <section id="hidden-data-status" style="display: none;">
-                        <textarea id="data" cols="150" rows="30">
-                            <%= linkData.linkcontest_status %> 
-                        </textarea>
+                        <textarea id="data" cols="150" rows="30" readonly><%= linkData.linkcontest_status %> 
+                        </textarea>   <button onclick="copy('hidden-data-status')" style="width: 3em;height:1.5em;">Copy</button>
                 </section>
             <% } %> 
         </section>
@@ -139,9 +131,8 @@
                 <br>
                 <br>
                 <section id="hidden-data-problems" style="display: none;">
-                    <textarea id="data" cols="150" rows="30">
-                        <%= linkData.linkproblemset_problems %> 
-                    </textarea>
+                    <textarea id="data" cols="150" rows="30" readonly><%= linkData.linkproblemset_problems %> 
+                    </textarea>   <button onclick="copy('hidden-data-problems')" style="width: 3em;height:1.5em;">Copy</button>
                 </section>
             <% } %>  
             <% if (check === 0) { %> 
@@ -158,9 +149,8 @@
                 <br>
                 <br>
                 <section id="hidden-data-rS" style="display: none;">
-                    <textarea name="" id="data" cols="150" rows="30">
-                        <%= linkData.linkproblemset_recentStatus %> 
-                    </textarea>
+                    <textarea name="" id="data" cols="150" rows="30" readonly><%= linkData.linkproblemset_recentStatus %> 
+                    </textarea>   <button onclick="copy('hidden-data-rS')" style="width: 3em;height:1.5em;">Copy</button>
                 </section> 
             <% } else { %>
                 <button style="border-left: 10em;"><a href="/methods/problemset/forms/countFiller" target="_blank"><%= methodName %>.recentStatus</a></button> <span>(Requires count of number of submissions)</span>
@@ -181,9 +171,8 @@
             <br>
             <br>
             <section id="hidden-data-recentActions" style="display: none;">
-                <textarea id="data" cols="150" rows="30">
-                    <%= linkData.linkrecentActions %> 
-                </textarea>
+                <textarea id="data" cols="150" rows="30" readonly><%= linkData.linkrecentActions %> 
+                </textarea>   <button onclick="copy('hidden-data-recentActions')" style="width: 3em;height:1.5em;">Copy</button>
             </section>
         </section> 
     <% } else { %>
@@ -207,9 +196,8 @@
                 <br>
                 <br>
                 <section id="hidden-data-userblogEntries" style="display: none;">
-                        <textarea id="data" cols="150" rows="30">
-                            <%= linkData.linkuser_blogEntries %> 
-                        </textarea>
+                        <textarea id="data" cols="150" rows="30" readonly><%= linkData.linkuser_blogEntries %> 
+                        </textarea>   <button onclick="copy('hidden-data-userblogEntries')" style="width: 3em;height:1.5em;">Copy</button>
                 </section>
             <% } %>  
             <% if (check === 0) { %> 
@@ -221,9 +209,8 @@
                 <br>
                 <br>
                 <section id="hidden-data-userinfo" style="display: none;">
-                        <textarea id="data" cols="150" rows="30">
-                            <%= linkData.linkuser_info %> 
-                        </textarea>
+                        <textarea id="data" cols="150" rows="30" readonly><%= linkData.linkuser_info %> 
+                        </textarea>   <button onclick="copy('hidden-data-userinfo')" style="width: 3em;height:1.5em;">Copy</button>
                 </section>
             <% } %> 
             <% if (check === 0) { %> 
@@ -235,9 +222,8 @@
                 <br>
                 <br>
                 <section id="hidden-data-userrating" style="display: none;">
-                        <textarea id="data" cols="150" rows="30">
-                            <%= linkData.linkuser_rating %> 
-                        </textarea>
+                        <textarea id="data" cols="150" rows="30" readonly><%= linkData.linkuser_rating %> 
+                        </textarea>   <button onclick="copy('hidden-data-userrating')" style="width: 3em;height:1.5em;">Copy</button>
                 </section>
             <% } %> 
             <% if (check === 0) { %> 
@@ -249,13 +235,12 @@
                 <br>
                 <br>
                 <section id="hidden-data-userstatus" style="display: none;">
-                        <textarea id="data" cols="150" rows="30">
-                            <%= linkData.linkuser_status %> 
-                        </textarea>
+                        <textarea id="data" cols="150" rows="30" readonly><%= linkData.linkuser_status %> 
+                        </textarea>   <button onclick="copy('hidden-data-userstatus')" style="width: 3em;height:1.5em;">Copy</button>
                 </section>
             <% } %> 
         </section>
-    <% } %>  
+    <% } %>     
     <script>
         function dropDown(id) {
             let data = document.getElementById(id);
@@ -264,6 +249,14 @@
             } else {
                 data.style.display = 'none';
             }
+        }
+
+        function copy(id) {
+            let parentId = document.getElementById(id)
+            let child = parentId.children.data
+            child.select()
+            document.execCommand('copy')
+            alert('Copied to clipboard')
         }
     </script> 
 </body>
