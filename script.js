@@ -417,6 +417,6 @@ app.post('/methods/:methodName',  (req,res) => {
 
 /* Listening on PORT */
 const port = process.env.PORT || 8080
-app.listen(8080, () => {
+app.listen(port, () => {
     console.log(`LISTENING ON PORT ${port}`)
 })
