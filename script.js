@@ -7,6 +7,9 @@ It simply means that, I am talking about the methods related to blogEntry which 
 Same for every other mentioned "methods"(like problemset method means I am talking about problemset.problems and problemset.recentStatus methods in CF API)
 For more details on this visit - https://codeforces.com/apiHelp
 
+
+contest.status scrapped out for now
+
 */
 
 
@@ -82,19 +85,34 @@ app.get('/methods/:methodName', async(req,res) => {
         res.render(`methods/method_form`, {methodName}) // Different page rendered according to methods demanded
     }
     else if (methodName === 'contest') {
-
-        /* awating all at once have a slight time advantage over individual awaiting */
-        let [linkcontest_listT,linkcontest_listF] = await Promise.all([axios.get(`https://codeforces.com/api/contest.list?gym=true`),axios.get(`https://codeforces.com/api/contest.list?gym=false`)])
-        /* Variable reassigned to its data key's value after stringifying the JSON */
-        linkcontest_listT = JSON.stringify(linkcontest_listT.data)
-        /* Running escape JSON for unicode characters need */
-        linkcontest_listT = escapeJson(linkcontest_listT)
-        /* The parsed data is actually a bigger ibject but we extract the data key to get the data */
-        linkcontest_listF = JSON.stringify(linkcontest_listF.data)
-        linkcontest_listF = escapeJson(linkcontest_listF)
-        linkData.linkcontest_listT = linkcontest_listT
-        linkData.linkcontest_listF = linkcontest_listF
-        res.render('methods/method_home', {linkData,methodName,check})
+        let linkcontest_listT = null;
+        let linkcontest_listF = null;
+        try {
+            linkcontest_listT = await axios.get(`https://codeforces.com/api/contest.list?gym=true`)
+            /* Variable reassigned to its data key's value after stringifying the JSON */
+            /* The parsed data is actually a bigger object but we extract the data key to get the data */
+            linkcontest_listT = JSON.stringify(linkcontest_listT.data)
+        }
+        catch(err) {
+            linkcontest_listT = (err.response.data)
+            linkcontest_listT = JSON.stringify(linkcontest_listT)
+        }
+        try {
+            linkcontest_listF = await axios.get(`https://codeforces.com/api/contest.list?gym=false`)
+            linkcontest_listF = JSON.stringify(linkcontest_listF.data)
+        } 
+        catch (err) {
+            linkcontest_listF = (err.response.data)
+            linkcontest_listF = JSON.stringify(linkcontest_listF)
+        }
+        finally {    
+            /* Running escape JSON for unicode characters need */
+            linkcontest_listT = escapeJson(linkcontest_listT) 
+            linkcontest_listF = escapeJson(linkcontest_listF)
+            linkData.linkcontest_listT = linkcontest_listT
+            linkData.linkcontest_listF = linkcontest_listF
+            res.render('methods/method_home', {linkData,methodName,check})
+        }
     }
     else if (methodName === 'problemset') {
         res.render('methods/method_home', {methodName,check,countFillercheck})
@@ -187,25 +205,50 @@ app.get('/methods/:methodName/:id', async(req,res) => {
 
 
     /************* Issue code starts(time to load around 15 seconds) **************/
-    /* try catch remaining for this section */
     else if (methodName === 'contest') {
-        let [linkcontest_hacks,linkcontest_ratingChanges,linkcontest_standings,linkcontest_status] = await Promise.all([axios.get(`https://codeforces.com/api/contest.hacks?contestId=${id}`),axios.get(`https://codeforces.com/api/contest.ratingChanges?contestId=${id}`),axios.get(`https://codeforces.com/api/contest.standings?contestId=${id}`),axios.get(`https://codeforces.com/api/contest.status?contestId=${id}`)])
-        linkcontest_hacks = JSON.stringify(linkcontest_hacks.data)
-        linkcontest_hacks = escapeJson(linkcontest_hacks)
-        linkData.linkcontest_hacks = linkcontest_hacks
-        linkcontest_ratingChanges = JSON.stringify(linkcontest_ratingChanges.data)
-        linkcontest_ratingChanges = escapeJson(linkcontest_ratingChanges)
-        linkData.linkcontest_ratingChanges = linkcontest_ratingChanges
-        linkcontest_standings = JSON.stringify(linkcontest_standings.data)
-        linkcontest_standings = escapeJson(linkcontest_standings)
-        linkData.linkcontest_standings = linkcontest_standings
-        linkcontest_status = JSON.stringify(linkcontest_status.data)
-        linkcontest_status = escapeJson(linkcontest_status)
-        linkData.linkcontest_status = linkcontest_status
-        //console.log(linkData.linkcontest_ratingChanges.data)
-        check = 1
-        res.render('methods/method_home', {linkData,methodName,check,id})
-        check = 0
+        let linkcontest_hacks = null;
+        let linkcontest_ratingChanges = null;
+        let linkcontest_standings = null;
+        //let linkcontest_status = null;
+        try {
+            linkcontest_hacks = await axios.get(`https://codeforces.com/api/contest.hacks?contestId=${id}`)
+            linkcontest_hacks = JSON.stringify(linkcontest_hacks.data)
+        }
+        catch(err) {
+            linkcontest_hacks = (err.response.data)
+            linkcontest_hacks = JSON.stringify(linkcontest_hacks)
+        } 
+        try {
+            linkcontest_ratingChanges = await axios.get(`https://codeforces.com/api/contest.ratingChanges?contestId=${id}`)
+            linkcontest_ratingChanges = JSON.stringify(linkcontest_ratingChanges.data)
+        } 
+        catch (err) {
+            linkcontest_ratingChanges = (err.response.data)
+            linkcontest_ratingChanges = JSON.stringify(linkcontest_ratingChanges)
+        }
+        try {
+            linkcontest_standings = await axios.get(`https://codeforces.com/api/contest.standings?contestId=${id}`)
+            linkcontest_standings = JSON.stringify(linkcontest_standings.data)
+        } 
+        catch (err) {
+            linkcontest_standings = (err.response.data)
+            linkcontest_standings = JSON.stringify(linkcontest_standings)
+        }
+        finally {
+            linkcontest_hacks = escapeJson(linkcontest_hacks)
+            linkData.linkcontest_hacks = linkcontest_hacks
+            linkcontest_ratingChanges = escapeJson(linkcontest_ratingChanges)
+            linkData.linkcontest_ratingChanges = linkcontest_ratingChanges
+            linkcontest_standings = escapeJson(linkcontest_standings)
+            linkData.linkcontest_standings = linkcontest_standings
+            // linkcontest_status = JSON.stringify(linkcontest_status.data)
+            // linkcontest_status = escapeJson(linkcontest_status)
+            // linkData.linkcontest_status = linkcontest_status
+            //console.log(linkData.linkcontest_ratingChanges.data)
+            check = 1
+            res.render('methods/method_home', {linkData,methodName,check,id})
+            check = 0
+        }
     }
     /************* Issue code ends ****************/
 
