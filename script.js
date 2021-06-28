@@ -25,7 +25,7 @@ const express = require('express')
 const path = require('path')
 const app = express() // Calling express and assigning to app
 const axios = require('axios')
-
+const session = require('express-session');
 
 
 /* Setting views folder as default for looking in ejs files and adding it to path */
