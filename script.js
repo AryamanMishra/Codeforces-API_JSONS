@@ -1,5 +1,10 @@
 /*
 
+    HEROKU DEPLOYED
+    https://codeforces-api-jsons.herokuapp.com/
+*/
+/*
+
 Codeforces_API-JSONS
 READ THE COMMENTS CAREFULLY AS THE CODE IS LITTLE COMPLEX AND LENGTHY PROCEDURALLY.
 NOTE - If in comments I am mentioning for example, blogEntry as a method, that doesnt mean blogEntry is itself a method in CF API.
