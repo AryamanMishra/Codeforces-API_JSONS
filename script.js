@@ -45,6 +45,23 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 
+/* Session use */
+app.use(session({
+    name: 'session',
+    secret: process.env.SECRET || 'thisisasecret!',
+    store: MongoStore.create({mongoUrl:dbUrl}),
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        // secure: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}))
+
+
+
 
 /* 
     Functional code starts here 
